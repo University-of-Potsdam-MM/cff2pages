@@ -1,0 +1,26 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "cff2pages"
+version = "0.0.1"
+authors = [
+    { name = "Jan Bernoth", email = "jan.bernoth@uni-potsdam.de" },
+]
+description = "Creates pages based on your cff."
+readme = "README.md"
+requires-python = ">=3.11"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+dependencies = [
+    'Jinja2>=3.1.2'
+    ]
+
+[project.urls]
+"Homepage" = "https://github.com/University-of-Potsdam-MM/cff2pages"
+"Bug Tracker" = "https://github.com/University-of-Potsdam-MM/cff2pages/issues"
