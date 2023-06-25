@@ -1,0 +1,25 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: cff2pages
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Jan
+    family-names: Bernoth
+    email: jan.bernoth@uni-potsdam.de
+    affiliation: University of Potsdam
+    orcid: 'https://orcid.org/0000-0002-4127-0053'
+repository-code: 'https://github.com/University-of-Potsdam-MM/cff2pages'
+abstract: >-
+  This repository generates pages for GitHub or GitLab based
+  on your CFF. This means that your CFF is well-suited for
+  both machine processing and human readability.
+keywords:
+  - cff
+  - documentation
+  - pages
+license: MIT
