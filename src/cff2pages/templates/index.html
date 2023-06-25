@@ -5,6 +5,13 @@
 </head>
 <body>
 <h1> {{ title }}</h1>
-<h2> {{ author }}</h2>
+{% for author in authors %}
+<h2>
+    {{ author['given-names'] }} {{ author['family-names'] }}: {{ author.affiliation }}
+    <img decoding="async" alt="" src="./assets/img/orcid_16x16.webp"
+         style="width:16px; height:16px; margin:3px">
+    <a href="{{ author.orcid }}"> {{ author.orcid }}</a>
+</h2>
+{% endfor %}
 </body>
 </html>
