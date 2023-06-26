@@ -1,6 +1,6 @@
 import os
 import shutil
-import pkg_resources
+from pathlib import Path
 
 from jinja2 import Environment, PackageLoader, select_autoescape
 from cffconvert.cli.create_citation import create_citation
@@ -28,7 +28,7 @@ def write_to_pub_folder(init_path, html_string):
         file.write(html_string)
     # cp image files
     orcid_logo = 'orcid_16x16.webp'
-    image_path = pkg_resources.resource_filename('cff2pages', os.path.join('resources', orcid_logo))
+    image_path = Path(__file__).parent.joinpath('resources').joinpath(orcid_logo)
     shutil.copy2(image_path, os.path.join(path_public_img_folder, orcid_logo))
 
 

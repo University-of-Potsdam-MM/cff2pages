@@ -23,11 +23,18 @@ class MyTestCase(unittest.TestCase):
                 self.assertEqual(index_html.read(), """<!DOCTYPE html>
 <html lang="de">
 <head>
-    <title>This is the Test-title</title>
+    <title>cff2pages</title>
 </head>
 <body>
-<h1> This is the Test-title</h1>
-<h2>  Jan Bernoth</h2>
+<h1> cff2pages</h1>
+
+<h2>
+    Jan Bernoth: University of Potsdam
+    <img decoding="async" alt="" src="./assets/img/orcid_16x16.webp"
+         style="width:16px; height:16px; margin:3px">
+    <a href="https://orcid.org/0000-0002-4127-0053"> https://orcid.org/0000-0002-4127-0053</a>
+</h2>
+
 </body>
 </html>""")
 
