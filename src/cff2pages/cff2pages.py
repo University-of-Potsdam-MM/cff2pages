@@ -32,6 +32,15 @@ def write_to_pub_folder(init_path, html_string):
     shutil.copy2(image_path, os.path.join(path_public_img_folder, orcid_logo))
 
 
+def get_unique_affiliations(authors):
+    unique_affiliation = list()
+    for author in authors:
+        if unique_affiliation.count(author['affiliation']) == 0:
+            unique_affiliation.append(author['affiliation'])
+    unique_affiliation.sort()
+    return unique_affiliation
+
+
 def main_procedure(init_path):
     """
     function to process all steps in the main method
@@ -45,13 +54,10 @@ def main_procedure(init_path):
         autoescape=select_autoescape()
     )
     index_templ = env.get_template('index.html')
-    dummy_data = {
-        'title': 'This is the Test-title',
-        'author': ' Jan Bernoth'
-    }
     citation = create_citation('CITATION.cff', None)
     citation.validate()
     print(citation.cffobj['authors'])
+    citation.cffobj['unique_affiliations'] = get_unique_affiliations((citation.cffobj['authors']))
     index_html = index_templ.render(citation.cffobj)
     write_to_pub_folder(init_path, index_html)
 

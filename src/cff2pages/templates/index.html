@@ -2,16 +2,117 @@
 <html lang="de">
 <head>
     <title>{{ title }}</title>
+    <style>
+        body, h1, h2, h3, p, ul, li {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /*.container {*/
+        /*    display: flex;*/
+        /*    justify-content: space-between;*/
+        /*    max-width: 1200px;*/
+        /*    margin: 0 auto;*/
+        /*    padding: 1rem;*/
+        /*}*/
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            padding: 2rem 0;
+        }
+
+        .container h1,
+        .container h2,
+        .container h3,
+        .container h4,
+        .container h5,
+        .container h6 {
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .blog-title {
+            font-size: 1.8rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .keyword-container {
+            margin-bottom: 0;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+        }
+
+        .keyword-list {
+            display: inline-flex;
+            flex-wrap: wrap;
+            padding: 0;
+            list-style-type: none;
+            margin: 0;
+        }
+
+        .keyword-item {
+            margin: 0 0.5rem 0.5rem 0;
+            padding: 0.3rem 0.8rem;
+            font-size: 0.9rem;
+            background-color: #f5f5f5;
+            border-radius: 2px;
+        }
+
+        .keyword-item a {
+            color: #333;
+            text-decoration: none;
+        }
+
+        .keyword-item a:hover {
+            color: #666;
+        }
+    </style>
 </head>
 <body>
-<h1> {{ title }}</h1>
-{% for author in authors %}
-<h2>
-    {{ author['given-names'] }} {{ author['family-names'] }}: {{ author.affiliation }}
-    <img decoding="async" alt="" src="./assets/img/orcid_16x16.webp"
-         style="width:16px; height:16px; margin:3px">
-    <a href="{{ author.orcid }}"> {{ author.orcid }}</a>
-</h2>
-{% endfor %}
+<div class="container">
+    <h1 class="blog-title"> {{ title }}</h1>
+    <h2>
+    {% for author in authors %}
+        {{ author['given-names'] }} {{ author['family-names'] }}:
+        <sup>{{ unique_affiliations.index(author.affiliation) + 1 }}</sup>
+        <a href="{{ author.orcid }}">
+            <img decoding="async" alt=""
+                 src="./assets/img/orcid_16x16.webp"
+                 style="width:16px; height:16px; margin:3px">
+        </a>,
+    {% endfor %}
+    </h2>
+    <ul>
+        {% for affiliate in unique_affiliations %}
+        {{ unique_affiliations.index(affiliate) + 1 }} : {{ affiliate }}
+        {% endfor %}
+    </ul>
+    <div class="keyword-container">
+        <b>Keywords:</b>
+        <ul class="keyword-list">
+            {% for keyword in keywords %}
+            <li class="keyword-item">
+                <a class="keyword">{{ keyword }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <p class="licence"><b>License</b>: {{ license }}</p>
+    <p class="abstract"><b>Abstract</b>: {{ abstract }}</p>
+</div>
+
 </body>
 </html>
