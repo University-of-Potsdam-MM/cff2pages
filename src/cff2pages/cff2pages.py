@@ -49,6 +49,7 @@ def main_procedure(init_path):
 
     """
 
+    print(init_path)
     env = Environment(
         loader=PackageLoader("cff2pages"),
         autoescape=select_autoescape()
@@ -63,4 +64,4 @@ def main_procedure(init_path):
 
 
 if __name__ == '__main__':
-    main_procedure('.')
+    main_procedure(os.getcwd())
