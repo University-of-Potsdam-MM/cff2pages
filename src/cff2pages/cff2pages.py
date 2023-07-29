@@ -1,9 +1,13 @@
 import os
 import shutil
+import logging
 from pathlib import Path
 
 from jinja2 import Environment, PackageLoader, select_autoescape
 from cffconvert.cli.create_citation import create_citation
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.WARNING)
 
 
 def write_to_pub_folder(init_path, html_string):
@@ -28,8 +32,12 @@ def write_to_pub_folder(init_path, html_string):
         file.write(html_string)
     # cp image files
     orcid_logo = 'orcid_16x16.webp'
-    image_path = Path(__file__).parent.joinpath('resources').joinpath(orcid_logo)
-    shutil.copy2(image_path, os.path.join(path_public_img_folder, orcid_logo))
+    github_logo = 'github-logo.png'
+    gitlab_logo = 'gitlab-logo.png'
+
+    for logo in [orcid_logo, github_logo, gitlab_logo]:
+        image_path = Path(__file__).parent.joinpath('resources').joinpath(logo)
+        shutil.copy2(image_path, os.path.join(path_public_img_folder, logo))
 
 
 def get_unique_affiliations(authors):
@@ -58,6 +66,11 @@ def main_procedure(init_path):
     citation = create_citation('CITATION.cff', None)
     citation.validate()
     citation.cffobj['unique_affiliations'] = get_unique_affiliations((citation.cffobj['authors']))
+    if 'repository-code' in citation.cffobj:
+        citation.cffobj['repository'] = citation.cffobj['repository-code']
+    else:
+        logger.warning("No 'repository-code' found in CITATION.cff.")
+    print(citation.cffobj)
     index_html = index_templ.render(citation.cffobj)
     write_to_pub_folder(init_path, index_html)
 

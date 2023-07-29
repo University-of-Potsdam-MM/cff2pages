@@ -14,6 +14,10 @@ authors:
     affiliation: University of Potsdam
     orcid: 'https://orcid.org/0000-0002-4127-0053'
 repository-code: 'https://github.com/University-of-Potsdam-MM/cff2pages'
+identifiers:
+  - description: The archive of this project in Software Heritage. All persistent versions are accessible via this directory.
+    type: swh
+    value: "swh:1:dir:1e3e28077c43ca999f434f29b6a872f5581b48e2"
 abstract: >-
   This repository generates pages for GitHub or GitLab based
   on your CFF. This means that your CFF is well-suited for
