@@ -88,11 +88,9 @@
     {% for author in authors %}
         {{ author['given-names'] }} {{ author['family-names'] }}:
         <sup>{{ unique_affiliations.index(author.affiliation) + 1 }}</sup>
-        <a href="{{ author.orcid }}">
-            <img decoding="async" alt=""
+        <a href="{{ author.orcid }}"><img decoding="async" alt=""
                  src="./assets/img/orcid_16x16.webp"
-                 style="width:16px; height:16px; margin:3px">
-        </a>,
+                 style="width:16px; height:16px; margin:3px" /></a>,
     {% endfor %}
     </h2>
     <ul>

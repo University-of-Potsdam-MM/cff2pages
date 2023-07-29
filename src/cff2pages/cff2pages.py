@@ -57,7 +57,6 @@ def main_procedure(init_path):
     index_templ = env.get_template('index.html')
     citation = create_citation('CITATION.cff', None)
     citation.validate()
-    print(citation.cffobj['authors'])
     citation.cffobj['unique_affiliations'] = get_unique_affiliations((citation.cffobj['authors']))
     index_html = index_templ.render(citation.cffobj)
     write_to_pub_folder(init_path, index_html)
