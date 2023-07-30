@@ -86,6 +86,18 @@
             height: 20px;
             vertical-align: middle;
         }
+
+        .footer-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px 0;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            border-top: 1px solid #333;
+        }
     </style>
 </head>
 <body>
@@ -142,15 +154,23 @@
                 {% endif %}
             {% elif identifier['type'] == 'doi' %}
                 <a href="https://doi.org/{{ identifier['value'] }}">
-                        <img src="https://img.shields.io/badge/DOI_-{{ identifier['value'] }}-blue"
-                             alt="DOI"/>
-                    </a>
+                    <img src="https://img.shields.io/badge/DOI_-{{ identifier['value'] }}-blue"
+                         alt="DOI"/>
+                </a>
             {% endif %}
         {% endfor %}
     </div>
 
     <p class="licence"><b>License</b>: {{ license }}</p>
     <p class="abstract"><b>Abstract</b>: {{ abstract }}</p>
+</div>
+
+<div class="footer-container">
+    <footer class="footer">
+        <p>Generated with <a href="https://github.com/University-of-Potsdam-MM/cff2pages"
+                           target="_blank">cff2pages</a>.
+        </p>
+    </footer>
 </div>
 
 </body>
