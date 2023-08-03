@@ -102,10 +102,13 @@
 </head>
 <body>
 <div class="container">
+    {# cff - title #}
     <h1 class="blog-title"> {{ title }}</h1>
+
+    {# cff - authors #}
     <h2>
         {% for author in authors %}
-            {{ author['given-names'] }} {{ author['family-names'] }}:
+            {{ author['given-names'] }} {{ author['family-names'] }}
             <sup>{{ unique_affiliations.index(author.affiliation) + 1 }}</sup>
             <a href="{{ author.orcid }}"><img decoding="async" alt=""
                                               src="./assets/img/orcid_16x16.webp"
@@ -117,6 +120,8 @@
             <sup>{{ unique_affiliations.index(affiliate) + 1 }}</sup> : {{ affiliate }}
         {% endfor %}
     </ul>
+
+    {# cff - keywords #}
     <div class="keyword-container">
         <b>Keywords:</b>
         <ul class="keyword-list">
@@ -127,6 +132,7 @@
             {% endfor %}
         </ul>
     </div>
+    {#cff - identifiers #}
     <div class="badges">
         {% if repository is defined %}
             {% if repository.startswith('https://github.com') %}
@@ -161,14 +167,16 @@
         {% endfor %}
     </div>
 
+    {# cff - licence #}
     <p class="licence"><b>License</b>: {{ license }}</p>
+    {# cff - abstract #}
     <p class="abstract"><b>Abstract</b>: {{ abstract }}</p>
 </div>
 
 <div class="footer-container">
     <footer class="footer">
         <p>Generated with <a href="https://github.com/University-of-Potsdam-MM/cff2pages"
-                           target="_blank">cff2pages</a>.
+                             target="_blank">cff2pages</a>.
         </p>
     </footer>
 </div>

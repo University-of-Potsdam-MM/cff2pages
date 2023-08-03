@@ -2,7 +2,8 @@
 # Visit https://bit.ly/cffinit to generate yours today!
 
 cff-version: 1.2.0
-title: cff2pages
+title: "cff2pages: An HTML Generator Based on Your Citation.cff File"
+version: 0.0.1
 message: >-
   If you use this software, please cite it using the
   metadata from this file.
