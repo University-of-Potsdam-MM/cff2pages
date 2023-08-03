@@ -1,12 +1,14 @@
 import os.path
 import tempfile
 import unittest
+import toml
+from cffconvert.cli.create_citation import create_citation
 from unittest import skip
 
 from src.cff2pages.cff2pages import main_procedure, get_unique_affiliations
 
 
-class MyTestCase(unittest.TestCase):
+class PagesTester(unittest.TestCase):
     def setUp(self):
         self.temp_dir = tempfile.TemporaryDirectory()
 
@@ -71,6 +73,24 @@ style="width:16px; height:16px; margin:3px">
 
 </body>
 </html>"""
+
+
+class VersionTester(unittest.TestCase):
+    def test_version_cff_toml(self):
+        # Load and parse pyproject.toml
+        with open('pyproject.toml', 'r') as f:
+            pyproject_data = toml.load(f)
+        citation = create_citation('CITATION.cff', None)
+        self.assertEqual(pyproject_data['project']['version'], citation.cffobj['version'])
+
+    def test_abstract_cff_toml(self):
+        # Load and parse pyproject.toml
+        with open('pyproject.toml', 'r') as f:
+            pyproject_data = toml.load(f)
+        citation = create_citation('CITATION.cff', None)
+        print(pyproject_data['project']['version'])
+        self.assertEqual(pyproject_data['project']['description'], citation.cffobj['abstract'])
+
 
 if __name__ == '__main__':
     unittest.main()
