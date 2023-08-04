@@ -1,8 +1,10 @@
 # Changelog
 
-## 0.0.2 (tbd)
+## 0.0.2 (2023-08-04)
 
 * added version test
+* added publish action
+* rework README
 
 ## 0.0.1 (2023-07-30) First Release
 
