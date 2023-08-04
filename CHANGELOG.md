@@ -1,5 +1,7 @@
 # Changelog
 
+## 0.0.3 (Pending)
+
 ## 0.0.2 (2023-08-04)
 
 * added version test

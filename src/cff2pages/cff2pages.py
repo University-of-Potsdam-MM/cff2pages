@@ -70,7 +70,6 @@ def main_procedure(init_path):
         citation.cffobj['repository'] = citation.cffobj['repository-code']
     else:
         logger.warning("No 'repository-code' found in CITATION.cff.")
-    print(citation.cffobj)
     index_html = index_templ.render(citation.cffobj)
     write_to_pub_folder(init_path, index_html)
 
