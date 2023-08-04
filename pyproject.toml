@@ -25,3 +25,9 @@ dependencies = [
 [project.urls]
 "Homepage" = "https://github.com/University-of-Potsdam-MM/cff2pages"
 "Bug Tracker" = "https://github.com/University-of-Potsdam-MM/cff2pages/issues"
+
+[project.optional-dependencies]
+test = [
+    "pytest ~= 7.4.0",
+    "toml ~= 0.10.2"
+]
