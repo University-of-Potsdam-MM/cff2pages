@@ -69,7 +69,6 @@ pages:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
-          # Upload entire repository
           path: './public'
       - name: Deploy to GitHub Pages
         id: deployment

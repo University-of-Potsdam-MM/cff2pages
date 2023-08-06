@@ -17,27 +17,39 @@ def write_to_pub_folder(init_path, html_string):
     :param init_path: initial path in which the public folder should be placed
     :param html_string: content for the index.hml
     """
-    path_public_folder = os.path.join(init_path, 'public')
-    path_public_assets_folder = os.path.join(path_public_folder, 'assets')
-    path_public_img_folder = os.path.join(path_public_assets_folder, 'img')
+    path_public = os.path.join(init_path, 'public')
+    path_assets = os.path.join(path_public, 'assets')
+    path_img = os.path.join(path_assets, 'img')
+    path_css = os.path.join(path_assets, 'css')
 
     # create all needed folders
-    for folder in [path_public_folder, path_public_assets_folder, path_public_img_folder]:
+    for folder in [path_public, path_assets, path_img, path_css]:
         if not os.path.exists(folder):
             os.mkdir(folder)
 
     # write index file
-    index_html_path = os.path.join(path_public_folder, 'index.html')
+    index_html_path = os.path.join(path_public, 'index.html')
     with open(index_html_path, 'w', encoding='utf-8') as file:
         file.write(html_string)
+
     # cp image files
     orcid_logo = 'orcid_16x16.webp'
     github_logo = 'github-logo.png'
     gitlab_logo = 'gitlab-logo.png'
 
-    for logo in [orcid_logo, github_logo, gitlab_logo]:
-        image_path = Path(__file__).parent.joinpath('resources').joinpath(logo)
-        shutil.copy2(image_path, os.path.join(path_public_img_folder, logo))
+    copy_files_to(path_img, 'img', [orcid_logo, github_logo, gitlab_logo])
+
+    # cp css file
+    css_file = 'default.css'
+
+    copy_files_to(path_css, 'css', [css_file])
+
+
+def copy_files_to(path_img, sub_folder, to_copy_files):
+    for to_copy_file in to_copy_files:
+        image_path = Path(__file__).parent.joinpath('resources').joinpath(sub_folder).joinpath(
+            to_copy_file)
+        shutil.copy2(image_path, os.path.join(path_img, to_copy_file))
 
 
 def get_unique_affiliations(authors):

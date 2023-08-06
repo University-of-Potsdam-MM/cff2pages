@@ -1,0 +1,95 @@
+body, h1, h2, h3, p, ul, li {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    color: #333;
+    padding: 2rem 0;
+}
+
+.container h1,
+.container h2,
+.container h3,
+.container h4,
+.container h5,
+.container h6 {
+    font-weight: 500;
+    margin-bottom: 1rem;
+}
+
+.blog-title {
+    font-size: 1.8rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+}
+
+.keyword-container {
+    margin-bottom: 0;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+.keyword-list {
+    display: inline-flex;
+    flex-wrap: wrap;
+    padding: 0;
+    list-style-type: none;
+    margin: 0;
+}
+
+.keyword-item {
+    margin: 0 0.5rem 0.5rem 0;
+    padding: 0.3rem 0.8rem;
+    font-size: 0.9rem;
+    background-color: #f5f5f5;
+    border-radius: 2px;
+}
+
+.keyword-item a {
+    color: #333;
+    text-decoration: none;
+}
+
+.keyword-item a:hover {
+    color: #666;
+}
+
+.badges {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.badge-item {
+    margin-right: 0.5rem;
+}
+
+.badge-item img {
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+}
+
+.footer-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px 0;
+}
+
+.footer {
+    text-align: center;
+    padding: 20px;
+    border-top: 1px solid #333;
+}
