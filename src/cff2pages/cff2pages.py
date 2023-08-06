@@ -61,10 +61,11 @@ def get_unique_affiliations(authors):
     return unique_affiliation
 
 
-def main_procedure(init_path):
+def main_procedure(init_path, cff_path):
     """
     function to process all steps in the main method
 
+    :param cff_path: path to cff file
     :param init_path: initial path in which the public folder should be placed
 
     """
@@ -75,7 +76,11 @@ def main_procedure(init_path):
         autoescape=select_autoescape()
     )
     index_templ = env.get_template('index.html')
-    citation = create_citation('CITATION.cff', None)
+    if cff_path is None:
+        cff_file = 'CITATION.cff'
+    else:
+        cff_file = cff_path
+    citation = create_citation(cff_file, None)
     citation.validate()
     citation.cffobj['unique_affiliations'] = get_unique_affiliations((citation.cffobj['authors']))
     if 'repository-code' in citation.cffobj:
@@ -87,4 +92,4 @@ def main_procedure(init_path):
 
 
 if __name__ == '__main__':
-    main_procedure(os.getcwd())
+    main_procedure(os.getcwd(), None)

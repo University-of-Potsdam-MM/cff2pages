@@ -1,30 +1,36 @@
 import os.path
+import shutil
 import tempfile
 import unittest
 import toml
+from bs4 import BeautifulSoup
 from cffconvert.cli.create_citation import create_citation
-from unittest import skip
 
 from src.cff2pages.cff2pages import main_procedure, get_unique_affiliations
 
 
-class PagesTester(unittest.TestCase):
+class MinimalCffTester(unittest.TestCase):
     def setUp(self):
         self.temp_dir = tempfile.TemporaryDirectory()
+        self.minimal_filename = 'minimal.cff'
+        test_file = os.path.join(os.path.dirname(__file__), self.minimal_filename)
+        shutil.copy2(test_file, self.temp_dir.name)
 
     def tearDown(self):
         self.temp_dir.cleanup()
 
-    @skip
-    def test_creation_of_index_html(self):
+    def test_generated_minimal_html_body(self):
         with self.temp_dir as tmp_dir:
-            main_procedure(tmp_dir)
+            main_procedure(tmp_dir, os.path.join(tmp_dir, self.minimal_filename))
             public_path = os.path.join(tmp_dir, 'public')
             index_file = os.path.join(public_path, 'index.html')
             self.assertTrue(os.path.exists(public_path))
             self.assertTrue(os.path.exists(index_file))
             with open(index_file, 'r') as index_html:
-                self.assertEqual(index_html.read(), expected_html)
+                soup = BeautifulSoup(index_html.read())
+                actual_body = soup.find('body')
+                expected_body = BeautifulSoup(expected_minimal_body)
+                self.assertEqual(actual_body.prettify(), expected_body.prettify())
 
     def test_authors_affiliation(self):
         authors = [
@@ -56,23 +62,33 @@ class PagesTester(unittest.TestCase):
         self.assertEqual(unique_affiliation.index(authors[2]['affiliation']), 0)
 
 
-expected_html = """<!DOCTYPE html>
-<html lang="de">
-<head>
-<title>cff2pages</title>
-</head>
-<body>
-<h1> cff2pages</h1>
-
+expected_minimal_body = """<body>
+<div class="container">
+<h1 class="blog-title"> Test CFF</h1>
 <h2>
-Jan Bernoth: University of Potsdam
-<img decoding="async" alt="" src="./assets/img/orcid_16x16.webp"
-style="width:16px; height:16px; margin:3px">
-<a href="https://orcid.org/0000-0002-4127-0053"> https://orcid.org/0000-0002-4127-0053</a>
-</h2>
+        
+            Muster Mina
+            <sup>2</sup>
+,
+        
+            Minster Mana
+            <sup>1</sup>
+    </h2>
+<ul>
+<sup>1</sup> : pu
+        
+            <sup>2</sup> : up
+        
+    </ul>
+</div>
 
-</body>
-</html>"""
+<div class="footer-container">
+<footer class="footer">
+<p>Generated with <a href="https://github.com/University-of-Potsdam-MM/cff2pages" target="_blank">cff2pages</a>.
+        </p>
+</footer>
+</div>
+</body>"""
 
 
 class VersionTester(unittest.TestCase):

@@ -4,7 +4,7 @@
     <title>{{ title }}</title>
     <link rel="stylesheet" href="assets/css/default.css">
     <style>
-</style>
+    </style>
 </head>
 <body>
 <div class="container">
@@ -16,9 +16,12 @@
         {% for author in authors %}
             {{ author['given-names'] }} {{ author['family-names'] }}
             <sup>{{ unique_affiliations.index(author.affiliation) + 1 }}</sup>
-            <a href="{{ author.orcid }}"><img decoding="async" alt=""
-                                              src="./assets/img/orcid_16x16.webp"
-                                              style="width:16px; height:16px; margin:3px"/></a>,
+            {% if author.orcid is defined %}
+                <a href="{{ author.orcid }}"><img decoding="async" alt=""
+                                                  src="./assets/img/orcid_16x16.webp"
+                                                  style="width:16px; height:16px; margin:3px"/></a>
+            {% endif %}
+            {% if not loop.last %},{% endif %}
         {% endfor %}
     </h2>
     <ul>
@@ -28,18 +31,21 @@
     </ul>
 
     {# cff - keywords #}
-    <div class="keyword-container">
-        <b>Keywords:</b>
-        <ul class="keyword-list">
-            {% for keyword in keywords %}
-                <li class="keyword-item">
-                    <a class="keyword">{{ keyword }}</a>
-                </li>
-            {% endfor %}
-        </ul>
-    </div>
+    {% if keywords is defined %}
+        <div class="keyword-container">
+            <b>Keywords:</b>
+            <ul class="keyword-list">
+                {% for keyword in keywords %}
+                    <li class="keyword-item">
+                        <a class="keyword">{{ keyword }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
     {#cff - identifiers #}
-    <div class="badges">
+    {% if identifiers is defined %}
+        <div class="badges">
         {% if repository is defined %}
             {% if repository.startswith('https://github.com') %}
                 <a class="badge-item" href="{{ repository }}" target="_blank">
@@ -71,12 +77,17 @@
                 </a>
             {% endif %}
         {% endfor %}
+    {% endif %}
     </div>
 
     {# cff - licence #}
-    <p class="licence"><b>License</b>: {{ license }}</p>
+    {% if license is defined %}
+        <p class="licence"><b>License</b>: {{ license }}</p>
+    {% endif %}
     {# cff - abstract #}
-    <p class="abstract"><b>Abstract</b>: {{ abstract }}</p>
+    {% if abstract is defined %}
+        <p class="abstract"><b>Abstract</b>: {{ abstract }}</p>
+    {% endif %}
 </div>
 
 <div class="footer-container">

@@ -30,5 +30,6 @@ dependencies = [
 test = [
     "flake8 ~= 6.1.0",
     "pytest ~= 7.4.0",
-    "toml ~= 0.10.2"
+    "toml ~= 0.10.2",
+    "beautifulsoup4 ~= 4.12.2"
 ]
