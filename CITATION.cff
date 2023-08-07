@@ -2,32 +2,15 @@
 # Visit https://bit.ly/cffinit to generate yours today!
 
 cff-version: 1.2.0
-title: "cff2pages: An HTML Generator Based on Your Citation.cff File"
-version: 0.0.3
+title: Test CFF
 message: >-
   If you use this software, please cite it using the
   metadata from this file.
 type: software
 authors:
-  - given-names: Jan
-    family-names: Bernoth
-    email: jan.bernoth@uni-potsdam.de
-    affiliation: University of Potsdam
-    orcid: 'https://orcid.org/0000-0002-4127-0053'
-repository-code: 'https://github.com/University-of-Potsdam-MM/cff2pages'
-identifiers:
-  - description: The archive of this project in Software Heritage. All persistent versions are accessible via this directory.
-    type: swh
-    value: "swh:1:dir:1e3e28077c43ca999f434f29b6a872f5581b48e2"
-  - description: Zenodo DOI to the repository
-    type: doi
-    value: "10.5281/zenodo.8213987"
-abstract: >-
-  This repository generates pages for GitHub or GitLab based
-  on your CFF. This means that your CFF is well-suited for
-  both machine processing and human readability.
-keywords:
-  - cff
-  - documentation
-  - pages
-license: MIT
+  - given-names: Muster
+    family-names: Mina
+    affiliation: up
+  - given-names: Minster
+    family-names: Mana
+    affiliation: pu

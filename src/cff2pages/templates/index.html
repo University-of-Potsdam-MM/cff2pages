@@ -13,81 +13,81 @@
 
     {# cff - authors #}
     <h2>
-        {% for author in authors %}
-            {{ author['given-names'] }} {{ author['family-names'] }}
+        {%- for author in authors %}
+            {{+ author['given-names'] }} {{ author['family-names'] -}}
             <sup>{{ unique_affiliations.index(author.affiliation) + 1 }}</sup>
-            {% if author.orcid is defined %}
+            {%- if author.orcid is defined -%}
                 <a href="{{ author.orcid }}"><img decoding="async" alt=""
                                                   src="./assets/img/orcid_16x16.webp"
                                                   style="width:16px; height:16px; margin:3px"/></a>
-            {% endif %}
-            {% if not loop.last %},{% endif %}
-        {% endfor %}
+            {%- endif %}
+            {%- if not loop.last %}, {% endif %}
+        {%- endfor %}
     </h2>
     <ul>
-        {% for affiliate in unique_affiliations %}
+        {% for affiliate in unique_affiliations -%}
             <sup>{{ unique_affiliations.index(affiliate) + 1 }}</sup> : {{ affiliate }}
-        {% endfor %}
+        {% endfor -%}
     </ul>
 
     {# cff - keywords #}
-    {% if keywords is defined %}
+    {%- if keywords is defined -%}
         <div class="keyword-container">
             <b>Keywords:</b>
             <ul class="keyword-list">
-                {% for keyword in keywords %}
+                {%- for keyword in keywords -%}
                     <li class="keyword-item">
                         <a class="keyword">{{ keyword }}</a>
                     </li>
-                {% endfor %}
+                {%- endfor %}
             </ul>
         </div>
     {% endif %}
     {#cff - identifiers #}
-    {% if identifiers is defined %}
+    {%- if identifiers is defined %}
         <div class="badges">
-        {% if repository is defined %}
-            {% if repository.startswith('https://github.com') %}
+        {%- if repository is defined -%}
+            {%- if repository.startswith('https://github.com') -%}
                 <a class="badge-item" href="{{ repository }}" target="_blank">
                     <img src="./assets/img/github-logo.png" alt="Github Logo"></a>
-            {% elif repository.startswith('https://gitlab.com') %}
+            {%- elif repository.startswith('https://gitlab.com') -%}
                 <a class="badge-item" href="{{ repository }}" target="_blank">
                     <img src="./assets/img/gitlab-logo.png" alt="GitLab Logo"></a>
-            {% endif %}
+            {%- endif %}
             <a href="{{ repository }}" target="_blank">Repository</a>
-        {% endif %}
+        {%- endif %}
 
-        {% for identifier in identifiers %}
-            {% if identifier['type'] == 'swh' %}
-                {% if repository is defined %}
+        {%- for identifier in identifiers -%}
+            {%- if identifier['type'] == 'swh' -%}
+                {%- if repository is defined %}
                     <a href="https://archive.softwareheritage.org/browse/origin/?origin_url={{ repository }}">
                         <img src="https://archive.softwareheritage.org/badge/origin/{{ repository }}"
                              alt="Archived | {{ repository }}"/>
                     </a>
-                {% else %}
+                {% else -%}
                     <a href="https://archive.softwareheritage.org/{{ identifier['value'] }}">
                         <img src="https://archive.softwareheritage.org/badge/{{ identifier['value'] }}/"
                              alt="Archived | {{ identifier['value'] }}"/>
                     </a>
-                {% endif %}
-            {% elif identifier['type'] == 'doi' %}
+                {%- endif %}
+            {%- elif identifier['type'] == 'doi' %}
                 <a href="https://doi.org/{{ identifier['value'] }}">
                     <img src="https://img.shields.io/badge/DOI_-{{ identifier['value'] }}-blue"
                          alt="DOI"/>
                 </a>
-            {% endif %}
-        {% endfor %}
-    {% endif %}
+            {%- endif %}
+        {%- endfor %}
+    {%- endif %}
     </div>
 
     {# cff - licence #}
-    {% if license is defined %}
+    {%- if license is defined %}
         <p class="licence"><b>License</b>: {{ license }}</p>
-    {% endif %}
+    {%- endif %}
     {# cff - abstract #}
-    {% if abstract is defined %}
+    {%- if abstract is defined %}
         <p class="abstract"><b>Abstract</b>: {{ abstract }}</p>
-    {% endif %}
+    {%- endif %}
 </div>
 
 <div class="footer-container">

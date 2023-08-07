@@ -65,27 +65,14 @@ class MinimalCffTester(unittest.TestCase):
 expected_minimal_body = """<body>
 <div class="container">
 <h1 class="blog-title"> Test CFF</h1>
-<h2>
-        
-            Muster Mina
-            <sup>2</sup>
-,
-        
-            Minster Mana
-            <sup>1</sup>
-    </h2>
-<ul>
-<sup>1</sup> : pu
-        
-            <sup>2</sup> : up
-        
-    </ul>
+<h2> Muster Mina <sup>2</sup>, 
+            Minster Mana <sup>1</sup> </h2>
+<ul> <sup>1</sup> : pu <sup>2</sup> : up </ul>
 </div>
 
 <div class="footer-container">
 <footer class="footer">
-<p>Generated with <a href="https://github.com/University-of-Potsdam-MM/cff2pages" target="_blank">cff2pages</a>.
-        </p>
+<p>Generated with <a href="https://github.com/University-of-Potsdam-MM/cff2pages" target="_blank">cff2pages</a>. </p>
 </footer>
 </div>
 </body>"""
