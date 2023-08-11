@@ -2,7 +2,7 @@
 
 [![pypi](https://img.shields.io/pypi/v/cff2pages.svg)](https://pypi.org/project/cff2pages/)
 [![SWH](https://archive.softwareheritage.org/badge/origin/https://github.com/University-of-Potsdam-MM/cff2pages/)](https://archive.softwareheritage.org/browse/origin/?origin_url=https://github.com/University-of-Potsdam-MM/cff2pages)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.8213987.svg)](https://doi.org/10.5281/zenodo.8213987)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.8213987.svg)](https://doi.org/10.5281/zenodo.8213986)
 ## Motivation
 
 The Citation.cff is a fantastic format that combines human-readable and machine-readable metadata

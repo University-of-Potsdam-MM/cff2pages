@@ -3,7 +3,7 @@
 
 cff-version: 1.2.0
 title: "cff2pages: An HTML Generator Based on Your Citation.cff File"
-version: 0.0.3
+version: 0.0.4
 message: >-
   If you use this software, please cite it using the
   metadata from this file.
@@ -21,7 +21,7 @@ identifiers:
     value: "swh:1:dir:1e3e28077c43ca999f434f29b6a872f5581b48e2"
   - description: Zenodo DOI to the repository
     type: doi
-    value: "10.5281/zenodo.8213987"
+    value: "10.5281/zenodo.8213986"
 abstract: >-
   This repository generates pages for GitHub or GitLab based
   on your CFF. This means that your CFF is well-suited for

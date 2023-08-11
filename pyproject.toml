@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "cff2pages"
-version = "0.0.3"
+version = "0.0.4"
 authors = [
     { name = "Jan Bernoth", email = "jan.bernoth@uni-potsdam.de" },
 ]
