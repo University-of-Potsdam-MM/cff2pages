@@ -1,6 +1,11 @@
 # Changelog
 
-## 0.0.3 (Pending)
+## 0.0.3 (2023-08-11) Tested all features
+
+* added Zenodo DOI to Citation.cff
+* moved CSS-styles to its own file
+* made generated html more readable
+* added unit tests
 
 ## 0.0.2 (2023-08-04)
 
