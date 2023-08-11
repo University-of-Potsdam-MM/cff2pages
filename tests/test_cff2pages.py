@@ -22,14 +22,11 @@ class MinimalCffTester(unittest.TestCase):
     def test_generated_minimal_html_body(self):
         with self.temp_dir as tmp_dir:
             main_procedure(tmp_dir, os.path.join(tmp_dir, self.minimal_filename))
-            public_path = os.path.join(tmp_dir, 'public')
-            index_file = os.path.join(public_path, 'index.html')
-            self.assertTrue(os.path.exists(public_path))
-            self.assertTrue(os.path.exists(index_file))
+            index_file = check_folders(self, tmp_dir)
             with open(index_file, 'r') as index_html:
-                soup = BeautifulSoup(index_html.read())
+                soup = BeautifulSoup(index_html.read(), 'html.parser')
                 actual_body = soup.find('body')
-                expected_body = BeautifulSoup(expected_minimal_body)
+                expected_body = BeautifulSoup(expected_minimal_body, 'html.parser')
                 self.assertEqual(actual_body.prettify(), expected_body.prettify())
 
     def test_authors_affiliation(self):
@@ -75,7 +72,99 @@ expected_minimal_body = """<body>
 <p>Generated with <a href="https://github.com/University-of-Potsdam-MM/cff2pages" target="_blank">cff2pages</a>. </p>
 </footer>
 </div>
-</body>"""
+</body>""" # noqa
+
+
+class CurrentCffTester(unittest.TestCase):
+    def setUp(self):
+        self.temp_dir = tempfile.TemporaryDirectory()
+        self.current_filename = 'current.cff'
+        test_file = os.path.join(os.path.dirname(__file__), self.current_filename)
+        shutil.copy2(test_file, self.temp_dir.name)
+
+    def tearDown(self):
+        self.temp_dir.cleanup()
+
+    def test_generated_current_html_body(self):
+        with self.temp_dir as tmp_dir:
+            main_procedure(tmp_dir, os.path.join(tmp_dir, self.current_filename))
+            index_file = check_folders(self, tmp_dir)
+            with open(index_file, 'r') as index_html:
+                soup = BeautifulSoup(index_html.read(), 'html.parser')
+                actual_body = soup.find('body')
+                expected_body = BeautifulSoup(expected_current, 'html.parser')
+                self.assertEqual(actual_body.prettify(), expected_body.prettify())
+
+
+expected_current = """
+<body>
+<div class="container">
+    
+    <h1 class="blog-title"> Test CFF</h1>
+
+    
+    <h2>
+            Muster Mina<sup>2</sup>, 
+            Minster Mana<sup>1</sup>
+    </h2>
+    <ul>
+        <sup>1</sup> : pu
+        <sup>2</sup> : up
+        </ul>
+
+    <div class="keyword-container">
+            <b>Keywords:</b>
+            <ul class="keyword-list"><li class="keyword-item">
+                        <a class="keyword">keyword1</a>
+                    </li><li class="keyword-item">
+                        <a class="keyword">keyword2</a>
+                    </li><li class="keyword-item">
+                        <a class="keyword">keyword3</a>
+                    </li><li class="keyword-item">
+                        <a class="keyword">keyword4</a>
+                    </li>
+            </ul>
+        </div>
+    
+    
+        <div class="badges"><a class="badge-item" href="https://github.com/organization/site" target="_blank">
+                    <img src="./assets/img/github-logo.png" alt="Github Logo"></a>
+            <a href="https://github.com/organization/site" target="_blank">Repository</a>
+                    <a href="https://archive.softwareheritage.org/browse/origin/?origin_url=https://github.com/organization/site">
+                        <img src="https://archive.softwareheritage.org/badge/origin/https://github.com/organization/site"
+                             alt="Archived | https://github.com/organization/site"/>
+                    </a>
+                
+                <a href="https://doi.org/10.1111/zenodo.111111">
+                    <img src="https://img.shields.io/badge/DOI_-10.1111/zenodo.111111-blue"
+                         alt="DOI"/>
+                </a>
+    </div>
+
+    
+        <p class="licence"><b>License</b>: MIT</p>
+    
+        <p class="abstract"><b>Abstract</b>: This is a test abstract.</p>
+</div>
+
+<div class="footer-container">
+    <footer class="footer">
+        <p>Generated with <a href="https://github.com/University-of-Potsdam-MM/cff2pages"
+                             target="_blank">cff2pages</a>.
+        </p>
+    </footer>
+</div>
+
+</body>
+ """ # noqa
+
+
+def check_folders(cls, tmp_dir):
+    public_path = os.path.join(tmp_dir, 'public')
+    index_file = os.path.join(public_path, 'index.html')
+    cls.assertTrue(os.path.exists(public_path))
+    cls.assertTrue(os.path.exists(index_file))
+    return index_file
 
 
 class VersionTester(unittest.TestCase):

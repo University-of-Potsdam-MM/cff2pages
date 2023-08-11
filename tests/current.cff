@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+title: Test CFF
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Muster
+    family-names: Mina
+    affiliation: up
+  - given-names: Minster
+    family-names: Mana
+    affiliation: pu
+version: 1.2.3
+repository-code: 'https://github.com/organization/site'
+identifiers:
+  - description: Software Heritage Archive
+    type: swh
+    value: "swh:1:dir:1e3e28077c43ca999f434f29b6a872f5581b48e2"
+  - description: Zenodo DOI
+    type: doi
+    value: "10.1111/zenodo.111111"
+abstract: >-
+  This is a test abstract.
+keywords:
+  - keyword1
+  - keyword2
+  - keyword3
+  - keyword4
+license: MIT
