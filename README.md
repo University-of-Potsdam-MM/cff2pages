@@ -95,7 +95,7 @@ pages:
   - [ ] license-url
   - [ ] message
   - [ ] preferred-citation
-  - [ ] references
+  - [x] references (new, but not published!)
   - [ ] repository
   - [ ] repository-artifact
   - [x] repository-code

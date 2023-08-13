@@ -82,6 +82,48 @@ body {
     vertical-align: middle;
 }
 
+.references-container {
+    margin: 20px 0;
+    max-width: 800px;
+}
+
+.references-list {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.reference-item {
+    margin-bottom: 10px;
+}
+
+.reference-icon {
+    margin-right: 3px;
+    font-size: 1.2em;
+}
+
+.reference-author {
+    font-style: italic;
+}
+
+.reference-title {
+    font-weight: bold;
+}
+
+.reference-year {
+    font-size: 0.9em;
+    color: #666;
+}
+
+.reference-doi a {
+    color: #007BFF;
+    text-decoration: none;
+}
+
+.reference-doi a:hover {
+    text-decoration: underline;
+}
+
+
 .footer-container {
     max-width: 800px;
     margin: 0 auto;
