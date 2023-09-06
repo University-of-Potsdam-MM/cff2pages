@@ -28,3 +28,48 @@ keywords:
   - keyword3
   - keyword4
 license: MIT
+references:
+  - authors:
+      - family-names: Druskat
+        given-names: Stephan
+        orcid: https://orcid.org/0000-0003-4925-7248
+      - family-names: Spaaks
+        given-names: Jurriaan H.
+        orcid: https://orcid.org/0000-0002-7064-4069
+      - family-names: Chue Hong
+        given-names: Neil
+        orcid: https://orcid.org/0000-0002-8876-7606
+      - family-names: Haines
+        given-names: Robert
+        orcid: https://orcid.org/0000-0002-9538-7919
+      - family-names: Baker
+        given-names: James
+        orcid: https://orcid.org/0000-0002-2682-6922
+      - family-names: Bliven
+        given-names: Spencer
+        orcid: https://orcid.org/0000-0002-1200-1698
+        email: spencer.bliven@gmail.com
+      - family-names: Willighagen
+        given-names: Egon
+        orcid: https://orcid.org/0000-0001-7542-0286
+      - family-names: Pérez-Suárez
+        given-names: David
+        orcid: https://orcid.org/0000-0003-0784-6909
+        website: https://dpshelio.github.io
+      - family-names: Konovalov
+        given-names: Olexandr
+        orcid: https://orcid.org/0000-0001-5299-3292
+    title: Citation File Format
+    version: 1.2.0
+    doi: 10.5281/zenodo.1003149
+    type: software
+  - authors:
+      - family-names: Pavel
+        given-names: Antonia
+      - family-names: Garijo
+        given-names: Daniel
+        orcid: https://orcid.org/0000-0003-0454-7145
+    title: "Ya2RO: A tool for creating Research Object from minimum metadata"
+    type: article
+    year: 2023
+    doi: 10.4126/FRL01-006444984

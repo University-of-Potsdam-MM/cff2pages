@@ -96,11 +96,11 @@
             {% for reference in references %}
                 <li class="reference-item">
                     <span class="reference-icon" title="type {{ reference.type }}">
-                    {% if reference.type == 'article' %}
+                    {%- if reference.type == 'article' %}
                         📖
                     {% elif reference.type == 'software' %}
                         💻
-                    {% endif %}
+                    {%- endif %}
                     </span>
                     <span class="reference-title">{{ reference.title }}</span>,
                     <span class="reference-author">
