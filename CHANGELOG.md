@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.0 (2023-09-06) Added references
+
+* convert references
+* added tests for new conversion
+
 ## 0.0.3 (2023-08-11) Tested all features
 
 * added Zenodo DOI to Citation.cff
