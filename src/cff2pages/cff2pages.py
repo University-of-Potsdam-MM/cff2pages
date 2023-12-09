@@ -91,5 +91,9 @@ def main_procedure(init_path, cff_path):
     write_to_pub_folder(init_path, index_html)
 
 
-if __name__ == '__main__':
+def init_main():
     main_procedure(os.getcwd(), None)
+
+
+if __name__ == '__main__':
+    init_main()

@@ -26,7 +26,7 @@ page can serve as a vivid representation of your project on Github/Gitlab Pages.
 ````
 cd project_folder
 pip install cff2pages
-python -m cff2pages.cff2pages
+cff2pages
 ````
 
 ### Gitlab CI Runner
@@ -40,7 +40,7 @@ pages:
   image: python:3.11
   script:
     - python -m pip install cff2pages
-    - python -m cff2pages.cff2pages
+    - cff2pages
   artifacts:
     paths:
       - public
@@ -65,7 +65,7 @@ pages:
         run: |
           python -m pip install --upgrade pip
           pip install cff2pages
-          python -m cff2pages.cff2pages
+          cff2pages
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Upload artifact

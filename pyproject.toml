@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "cff2pages"
-version = "0.1.1"
+version = "0.1.2"
 authors = [
     { name = "Jan Bernoth", email = "jan.bernoth@uni-potsdam.de" },
 ]
@@ -25,6 +25,9 @@ dependencies = [
 [project.urls]
 "Homepage" = "https://github.com/University-of-Potsdam-MM/cff2pages"
 "Bug Tracker" = "https://github.com/University-of-Potsdam-MM/cff2pages/issues"
+
+[project.scripts]
+cff2pages = "cff2pages.cff2pages:init_main"
 
 [project.optional-dependencies]
 test = [
