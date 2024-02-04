@@ -1,0 +1,37 @@
+{% macro identifier_block(identifiers, repository) %}
+    {%- if identifiers is defined %}
+        <div class="badges">
+            {%- if repository is defined -%}
+                {%- if repository.startswith('https://github.com') -%}
+                    <a class="badge-item" href="{{ repository }}" target="_blank">
+                        <img src="./assets/img/github-logo.png" alt="Github Logo"></a>
+                {%- elif repository.startswith('https://gitlab.com') -%}
+                    <a class="badge-item" href="{{ repository }}" target="_blank">
+                        <img src="./assets/img/gitlab-logo.png" alt="GitLab Logo"></a>
+                {%- endif %}
+                <a href="{{ repository }}" target="_blank">Repository</a>
+            {%- endif %}
+
+            {%- for identifier in identifiers -%}
+                {%- if identifier['type'] == 'swh' -%}
+                    {%- if repository is defined %}
+                        <a href="https://archive.softwareheritage.org/browse/origin/?origin_url={{ repository }}">
+                            <img src="https://archive.softwareheritage.org/badge/origin/{{ repository }}"
+                                 alt="Archived | {{ repository }}"/>
+                        </a>
+                    {% else -%}
+                        <a href="https://archive.softwareheritage.org/{{ identifier['value'] }}">
+                            <img src="https://archive.softwareheritage.org/badge/{{ identifier['value'] }}/"
+                                 alt="Archived | {{ identifier['value'] }}"/>
+                        </a>
+                    {%- endif %}
+                {%- elif identifier['type'] == 'doi' %}
+                    <a href="https://doi.org/{{ identifier['value'] }}">
+                        <img src="https://img.shields.io/badge/DOI_-{{ identifier['value'] }}-blue"
+                             alt="DOI"/>
+                    </a>
+                {%- endif %}
+            {%- endfor %}
+        </div>
+    {%- endif %}
+{% endmacro %}

@@ -8,78 +8,18 @@
     </style>
 </head>
 <body>
+{% from 'authors.html' import authors_block %}
+{% from 'keywords.html' import keyword_block %}
+{% from 'identifiers.html' import identifier_block %}
+{% from 'references.html' import reference_block %}
+
 <div class="container">
     {# cff - title #}
     <h1 class="blog-title"> {{ title }}</h1>
 
-    {# cff - authors #}
-    <h2>
-        {%- for author in authors %}
-            {{+ author['given-names'] }} {{ author['family-names'] -}}
-            <sup>{{ unique_affiliations.index(author.affiliation) + 1 }}</sup>
-            {%- if author.orcid is defined -%}
-                <a href="{{ author.orcid }}"><img decoding="async" alt=""
-                                                  src="./assets/img/orcid_16x16.webp"
-                                                  style="width:16px; height:16px; margin:3px"/></a>
-            {%- endif %}
-            {%- if not loop.last %}, {% endif %}
-        {%- endfor %}
-    </h2>
-    <ul>
-        {% for affiliate in unique_affiliations -%}
-            <sup>{{ unique_affiliations.index(affiliate) + 1 }}</sup> : {{ affiliate }}
-        {% endfor -%}
-    </ul>
-
-    {# cff - keywords #}
-    {%- if keywords is defined -%}
-        <div class="keyword-container">
-            <b>Keywords:</b>
-            <ul class="keyword-list">
-                {%- for keyword in keywords -%}
-                    <li class="keyword-item">
-                        <a class="keyword">{{ keyword }}</a>
-                    </li>
-                {%- endfor %}
-            </ul>
-        </div>
-    {% endif %}
-    {#cff - identifiers #}
-    {%- if identifiers is defined %}
-        <div class="badges">
-        {%- if repository is defined -%}
-            {%- if repository.startswith('https://github.com') -%}
-                <a class="badge-item" href="{{ repository }}" target="_blank">
-                    <img src="./assets/img/github-logo.png" alt="Github Logo"></a>
-            {%- elif repository.startswith('https://gitlab.com') -%}
-                <a class="badge-item" href="{{ repository }}" target="_blank">
-                    <img src="./assets/img/gitlab-logo.png" alt="GitLab Logo"></a>
-            {%- endif %}
-            <a href="{{ repository }}" target="_blank">Repository</a>
-        {%- endif %}
-
-        {%- for identifier in identifiers -%}
-            {%- if identifier['type'] == 'swh' -%}
-                {%- if repository is defined %}
-                    <a href="https://archive.softwareheritage.org/browse/origin/?origin_url={{ repository }}">
-                        <img src="https://archive.softwareheritage.org/badge/origin/{{ repository }}"
-                             alt="Archived | {{ repository }}"/>
-                    </a>
-                {% else -%}
-                    <a href="https://archive.softwareheritage.org/{{ identifier['value'] }}">
-                        <img src="https://archive.softwareheritage.org/badge/{{ identifier['value'] }}/"
-                             alt="Archived | {{ identifier['value'] }}"/>
-                    </a>
-                {%- endif %}
-            {%- elif identifier['type'] == 'doi' %}
-                <a href="https://doi.org/{{ identifier['value'] }}">
-                    <img src="https://img.shields.io/badge/DOI_-{{ identifier['value'] }}-blue"
-                         alt="DOI"/>
-                </a>
-            {%- endif %}
-        {%- endfor %}
-    {%- endif %}
-    </div>
+    {{ authors_block(authors, unique_affiliations) }}
+    {{ keyword_block(keywords) }}
+    {{ identifier_block(identifiers, repository) }}
 
     {# cff - licence #}
     {%- if license is defined %}
@@ -89,40 +29,7 @@
     {%- if abstract is defined %}
         <p class="abstract"><b>Abstract</b>: {{ abstract }}</p>
     {%- endif %}
-    {%- if references is defined %}
-    <div class="references-container">
-        <h2>References</h2>
-        <ul class="references-list">
-            {% for reference in references %}
-                <li class="reference-item">
-                    <span class="reference-icon" title="type {{ reference.type }}">
-                    {%- if reference.type == 'article' %}
-                        📖
-                    {% elif reference.type == 'software' %}
-                        💻
-                    {%- endif %}
-                    </span>
-                    <span class="reference-title">{{ reference.title }}</span>,
-                    <span class="reference-author">
-                    {%- for author in reference['authors'] %}
-                        {{+ author['given-names'] }} {{ author['family-names'] -}}
-                        {%- if author.orcid is defined -%}
-                            <a href="{{ author.orcid }}"><img decoding="async" alt=""
-                                                              src="./assets/img/orcid_16x16.webp"
-                                                              style="width:16px; height:16px; margin:3px"/></a>
-                        {%- endif %}
-                        {%- if not loop.last %}, {% endif %}
-                    {%- endfor %}
-                    </span>
-                    {% if reference.year %}<span class="year">{{ reference.year }}</span>,
-                    {% endif %}
-                    <span class="reference-doi"><a href="https://doi.org/{{ reference.doi }}"
-                                                   target="_blank">{{ reference.doi }}</a></span>
-                </li>
-            {% endfor %}
-        </ul>
-    </div>
-    {%- endif %}
+    {{ reference_block(references) }}
 </div>
 
 <div class="footer-container">

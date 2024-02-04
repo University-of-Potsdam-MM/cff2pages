@@ -95,6 +95,7 @@ class CurrentCffTester(unittest.TestCase):
                 soup = BeautifulSoup(index_html.read(), 'html.parser')
                 actual_body = soup.find('body')
                 expected_body = BeautifulSoup(expected_current, 'html.parser')
+                print (actual_body.prettify())
                 self.assertEqual(actual_body.prettify(), expected_body.prettify())
 
 
