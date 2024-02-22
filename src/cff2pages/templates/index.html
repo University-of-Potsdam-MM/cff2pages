@@ -12,24 +12,31 @@
 {% from 'keywords.html' import keyword_block %}
 {% from 'identifiers.html' import identifier_block %}
 {% from 'references.html' import reference_block %}
+{% from 'cite_as.html' import cite_as%}
+
 
 <div class="container">
-    {# cff - title #}
-    <h1 class="blog-title"> {{ title }}</h1>
+    <div class="content">
+        {# cff - title #}
+        <h1 class="blog-title"> {{ title }}</h1>
 
-    {{ authors_block(authors, unique_affiliations) }}
-    {{ keyword_block(keywords) }}
-    {{ identifier_block(identifiers, repository) }}
+        {{ authors_block(authors, unique_affiliations) }}
+        {{ keyword_block(keywords) }}
+        {{ identifier_block(identifiers, repository) }}
 
-    {# cff - licence #}
-    {%- if license is defined %}
-        <p class="licence"><b>License</b>: {{ license }}</p>
-    {%- endif %}
-    {# cff - abstract #}
-    {%- if abstract is defined %}
-        <p class="abstract"><b>Abstract</b>: {{ abstract }}</p>
-    {%- endif %}
-    {{ reference_block(references) }}
+        {# cff - licence #}
+        {%- if license is defined %}
+            <p class="licence"><b>License</b>: {{ license }}</p>
+        {%- endif %}
+        {# cff - abstract #}
+        {%- if abstract is defined %}
+            <p class="abstract"><b>Abstract</b>: {{ abstract }}</p>
+        {%- endif %}
+        {{ reference_block(references) }}
+    </div>
+
+    {{ cite_as(citation) }}
+
 </div>
 
 <div class="footer-container">

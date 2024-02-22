@@ -1,0 +1,34 @@
+{% macro cite_as(citation) %}
+    {%- if citation is defined %}
+        <div class="citation">
+            <p><b>cite as (APA):</b></p>
+            <p id="citationText">{{ citation['apa'] }}</p>
+            <button id="copyButton">copy citation</button>
+            <div id="notification" class="notification">Copied!</div>
+        </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const copyButton = document.getElementById('copyButton');
+                if (copyButton) {
+                    copyButton.addEventListener('click', function () {
+                        const citationText = document.getElementById('citationText').innerText;
+                        navigator.clipboard.writeText(citationText)
+                            .then(() => {
+                                // Zeige die Benachrichtigung
+                                const notification = document.getElementById('notification');
+                                notification.style.opacity = '1';
+
+                                // Verstecke die Benachrichtigung nach 3 Sekunden
+                                setTimeout(() => {
+                                    notification.style.opacity = '0';
+                                }, 3000);
+                            })
+                            .catch(err => {
+                                console.error('Errors in the copy process: ', err);
+                            });
+                    });
+                }
+            });
+        </script>
+    {%- endif %}
+{% endmacro %}

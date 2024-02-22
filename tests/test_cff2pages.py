@@ -61,17 +61,68 @@ class MinimalCffTester(unittest.TestCase):
 
 expected_minimal_body = """<body>
 <div class="container">
-<h1 class="blog-title"> Test CFF</h1>
-<h2> Muster Mina <sup>2</sup>, 
-            Minster Mana <sup>1</sup> </h2>
-<ul> <sup>1</sup> : pu <sup>2</sup> : up </ul>
+    <div class="content">
+        
+        <h1 class="blog-title"> Test CFF</h1>
+
+        
+    <h2>
+            Muster Mina
+            <sup>2</sup>, 
+            Minster Mana
+            <sup>1</sup>
+    </h2>
+    <ul>
+        <sup>1</sup> : pu
+        <sup>2</sup> : up
+        </ul>
+
+    </div>
+
+    
+        <div class="citation">
+            <p><b>cite as (APA):</b></p>
+            <p id="citationText">Mina M., Mana M. Test CFF
+</p>
+            <button id="copyButton">copy citation</button>
+            <div id="notification" class="notification">Copied!</div>
+        </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const copyButton = document.getElementById('copyButton');
+                if (copyButton) {
+                    copyButton.addEventListener('click', function () {
+                        const citationText = document.getElementById('citationText').innerText;
+                        navigator.clipboard.writeText(citationText)
+                            .then(() => {
+                                // Zeige die Benachrichtigung
+                                const notification = document.getElementById('notification');
+                                notification.style.opacity = '1';
+
+                                // Verstecke die Benachrichtigung nach 3 Sekunden
+                                setTimeout(() => {
+                                    notification.style.opacity = '0';
+                                }, 3000);
+                            })
+                            .catch(err => {
+                                console.error('Errors in the copy process: ', err);
+                            });
+                    });
+                }
+            });
+        </script>
+
+
 </div>
 
 <div class="footer-container">
-<footer class="footer">
-<p>Generated with <a href="https://github.com/University-of-Potsdam-MM/cff2pages" target="_blank">cff2pages</a>. </p>
-</footer>
+    <footer class="footer">
+        <p>Generated with <a href="https://github.com/University-of-Potsdam-MM/cff2pages"
+                             target="_blank">cff2pages</a>.
+        </p>
+    </footer>
 </div>
+
 </body>""" # noqa
 
 
@@ -95,27 +146,29 @@ class CurrentCffTester(unittest.TestCase):
                 soup = BeautifulSoup(index_html.read(), 'html.parser')
                 actual_body = soup.find('body')
                 expected_body = BeautifulSoup(expected_current, 'html.parser')
-                print (actual_body.prettify())
+                print(actual_body.prettify())
                 self.assertEqual(actual_body.prettify(), expected_body.prettify())
 
 
-expected_current = """
-<body>
+expected_current = """<body>
 <div class="container">
-    
-    <h1 class="blog-title"> Test CFF</h1>
+    <div class="content">
+        
+        <h1 class="blog-title"> Test CFF</h1>
 
-    
+        
     <h2>
-            Muster Mina<sup>2</sup>, 
-            Minster Mana<sup>1</sup>
+            Muster Mina
+            <sup>2</sup>, 
+            Minster Mana
+            <sup>1</sup>
     </h2>
     <ul>
         <sup>1</sup> : pu
         <sup>2</sup> : up
         </ul>
 
-    <div class="keyword-container">
+        <div class="keyword-container">
             <b>Keywords:</b>
             <ul class="keyword-list"><li class="keyword-item">
                         <a class="keyword">keyword1</a>
@@ -129,37 +182,38 @@ expected_current = """
             </ul>
         </div>
     
-    
-        <div class="badges"><a class="badge-item" href="https://github.com/organization/site" target="_blank">
-                    <img src="./assets/img/github-logo.png" alt="Github Logo"></a>
-            <a href="https://github.com/organization/site" target="_blank">Repository</a>
-                    <a href="https://archive.softwareheritage.org/browse/origin/?origin_url=https://github.com/organization/site">
-                        <img src="https://archive.softwareheritage.org/badge/origin/https://github.com/organization/site"
-                             alt="Archived | https://github.com/organization/site"/>
-                    </a>
-                
-                <a href="https://doi.org/10.1111/zenodo.111111">
-                    <img src="https://img.shields.io/badge/DOI_-10.1111/zenodo.111111-blue"
-                         alt="DOI"/>
-                </a>
-    </div>
 
-    
-        <p class="licence"><b>License</b>: MIT</p>
-    
-        <p class="abstract"><b>Abstract</b>: This is a test abstract.</p>
-    <div class="references-container">
-        <h2>References</h2>
-        <ul class="references-list">
-            
-                <li class="reference-item">
+        
+        <div class="badges"><a class="badge-item" href="https://github.com/organization/site" target="_blank">
+                        <img src="./assets/img/github-logo.png" alt="Github Logo"></a>
+                <a href="https://github.com/organization/site" target="_blank">Repository</a>
+                        <a href="https://archive.softwareheritage.org/browse/origin/?origin_url=https://github.com/organization/site">
+                            <img src="https://archive.softwareheritage.org/badge/origin/https://github.com/organization/site"
+                                 alt="Archived | https://github.com/organization/site"/>
+                        </a>
+                    
+                    <a href="https://doi.org/10.1111/zenodo.111111">
+                        <img src="https://img.shields.io/badge/DOI_-10.1111/zenodo.111111-blue"
+                             alt="DOI"/>
+                    </a>
+        </div>
+
+
+        
+            <p class="licence"><b>License</b>: MIT</p>
+        
+            <p class="abstract"><b>Abstract</b>: This is a test abstract.</p>
+        
+        <div class="references-container">
+            <h2>References</h2>
+            <ul class="references-list">
+                
+                    <li class="reference-item">
                     <span class="reference-icon" title="type software">
-                    
                         💻
-                    
                     </span>
-                    <span class="reference-title">Citation File Format</span>,
-                    <span class="reference-author">
+                        <span class="reference-title">Citation File Format</span>,
+                        <span class="reference-author">
                         Stephan Druskat<a href="https://orcid.org/0000-0003-4925-7248"><img decoding="async" alt=""
                                                               src="./assets/img/orcid_16x16.webp"
                                                               style="width:16px; height:16px; margin:3px"/></a>, 
@@ -188,33 +242,70 @@ expected_current = """
                                                               src="./assets/img/orcid_16x16.webp"
                                                               style="width:16px; height:16px; margin:3px"/></a>
                     </span>
-                    
-                    <span class="reference-doi"><a href="https://doi.org/10.5281/zenodo.1003149"
-                                                   target="_blank">10.5281/zenodo.1003149</a></span>
-                </li>
-            
-                <li class="reference-item">
+                        
+                        <span class="reference-doi"><a href="https://doi.org/10.5281/zenodo.1003149"
+                                                       target="_blank">10.5281/zenodo.1003149</a></span>
+                    </li>
+                
+                    <li class="reference-item">
                     <span class="reference-icon" title="type article">
-                    
                         📖
                     
                     </span>
-                    <span class="reference-title">Ya2RO: A tool for creating Research Object from minimum metadata</span>,
-                    <span class="reference-author">
+                        <span class="reference-title">Ya2RO: A tool for creating Research Object from minimum metadata</span>,
+                        <span class="reference-author">
                         Antonia Pavel, 
                         Daniel Garijo<a href="https://orcid.org/0000-0003-0454-7145"><img decoding="async" alt=""
                                                               src="./assets/img/orcid_16x16.webp"
                                                               style="width:16px; height:16px; margin:3px"/></a>
                     </span>
-                    <span class="year">2023</span>,
-                    
-                    <span class="reference-doi"><a href="https://doi.org/10.4126/FRL01-006444984"
-                                                   target="_blank">10.4126/FRL01-006444984</a></span>
-                </li>
-            
-        </ul>
+                        <span class="year">2023</span>,
+                        
+                        <span class="reference-doi"><a href="https://doi.org/10.4126/FRL01-006444984"
+                                                       target="_blank">10.4126/FRL01-006444984</a></span>
+                    </li>
+                
+            </ul>
+        </div>
+
     </div>
+
+    
+        <div class="citation">
+            <p><b>cite as (APA):</b></p>
+            <p id="citationText">Mina M., Mana M. Test CFF (version 1.2.3). DOI: 10.1111/zenodo.111111 URL: https://github.com/organization/site
+</p>
+            <button id="copyButton">copy citation</button>
+            <div id="notification" class="notification">Copied!</div>
+        </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const copyButton = document.getElementById('copyButton');
+                if (copyButton) {
+                    copyButton.addEventListener('click', function () {
+                        const citationText = document.getElementById('citationText').innerText;
+                        navigator.clipboard.writeText(citationText)
+                            .then(() => {
+                                // Zeige die Benachrichtigung
+                                const notification = document.getElementById('notification');
+                                notification.style.opacity = '1';
+
+                                // Verstecke die Benachrichtigung nach 3 Sekunden
+                                setTimeout(() => {
+                                    notification.style.opacity = '0';
+                                }, 3000);
+                            })
+                            .catch(err => {
+                                console.error('Errors in the copy process: ', err);
+                            });
+                    });
+                }
+            });
+        </script>
+
+
 </div>
+
 <div class="footer-container">
     <footer class="footer">
         <p>Generated with <a href="https://github.com/University-of-Potsdam-MM/cff2pages"
@@ -223,8 +314,7 @@ expected_current = """
     </footer>
 </div>
 
-</body>
- """ # noqa
+</body>""" # noqa
 
 
 def check_folders(cls, tmp_dir):
