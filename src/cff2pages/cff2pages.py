@@ -1,6 +1,7 @@
 import os
-import shutil
 import logging
+import shutil
+from argparse import ArgumentParser, FileType
 from pathlib import Path
 
 from jinja2 import Environment, PackageLoader, select_autoescape
@@ -8,7 +9,6 @@ from cffconvert.cli.create_citation import create_citation
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.WARNING)
-
 
 def write_to_pub_folder(init_path, html_string):
     """
@@ -61,7 +61,7 @@ def get_unique_affiliations(authors):
     return unique_affiliation
 
 
-def main_procedure(init_path, cff_path):
+def main_procedure(cff_path, init_path):
     """
     function to process all steps in the main method
 
@@ -93,8 +93,35 @@ def main_procedure(init_path, cff_path):
     write_to_pub_folder(init_path, index_html)
 
 
+def parse_command(supported_formats):
+    '''
+    Parses options from the command line.
+    
+    Returns: a tuple of the option values (input_file, output_file).
+    '''
+    parser = ArgumentParser(
+        prog='cff2pages'
+        description='Converts citation information in Citation File Format into HTML or Markdown'
+    )
+    parser.add_argument(
+        '-i', '--input', 
+        default='./CITATION.cff', 
+        nargs=1, 
+        help='path to the input CFF file'
+    )
+    parser.add_argument(
+        '-o', '--output', 
+        default='public/index.html', 
+        nargs=1, 
+        help='path to the output file'
+    )
+    input_file, output_file = parser.parse_args()
+    return (input_file, output_file)
+
+
 def init_main():
-    main_procedure(os.getcwd(), None)
+    input_file, output_file = parse_command()
+    main_procedure(input_file, output_file)
 
 
 if __name__ == '__main__':
