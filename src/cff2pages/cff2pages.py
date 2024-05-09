@@ -61,6 +61,17 @@ def get_unique_affiliations(authors):
     return unique_affiliation
 
 
+def guess_format(filename, supported_formats):
+    """
+    extracts the file extension and raises a ValueError if the extension is not one of our supported formats.
+    """
+    extension = os.path.splitext(filename)
+    if extension in supported_formats:
+        return extension
+    else:
+        raise ValueError(f'Extension of given output file ({filename}) is not one of the supported formats. Formats currently supported: ({supported_formats}).')
+
+
 def main_procedure(cff_path, init_path):
     """
     function to process all steps in the main method
@@ -69,6 +80,9 @@ def main_procedure(cff_path, init_path):
     :param init_path: initial path in which the public folder should be placed
 
     """
+    # extract extension of output filename
+    supported_formats = ['.html', '.md'] # list of output file formats we currently support
+    output_format = guess_format(init_path, supported_formats)
 
     print(init_path)
     env = Environment(
