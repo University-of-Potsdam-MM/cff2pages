@@ -114,7 +114,7 @@ def parse_command(supported_formats):
     Returns: a tuple of the option values (input_file, output_file).
     '''
     parser = ArgumentParser(
-        prog='cff2pages'
+        prog='cff2pages',
         description='Converts citation information in Citation File Format into HTML or Markdown'
     )
     parser.add_argument(
