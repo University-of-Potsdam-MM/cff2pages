@@ -65,7 +65,7 @@ def guess_format(filename, supported_formats):
     """
     extracts the file extension and raises a ValueError if the extension is not one of our supported formats.
     """
-    extension = os.path.splitext(filename)
+    extension = os.path.splitext(filename)[-1]
     if extension in supported_formats:
         return extension
     else:
