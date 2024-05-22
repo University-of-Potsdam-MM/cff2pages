@@ -19,7 +19,7 @@ def write_to_pub_folder(init_path, html_string):
     """
     output_dir = os.path.split(init_path)[0]
     if not output_dir:
-        outpit_dir = '.'
+        output_dir = '.'
     path_assets = os.path.join(output_dir, 'assets')
     path_img = os.path.join(path_assets, 'img')
     path_css = os.path.join(path_assets, 'css')
