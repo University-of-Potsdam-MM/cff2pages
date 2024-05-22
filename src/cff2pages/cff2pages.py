@@ -130,12 +130,12 @@ def parse_command():
         help='path to the output file'
     )
     args = parser.parse_args()
-    return (args.input_file, args.output_file)
+    return args
 
 
 def init_main():
-    input_file, output_file = parse_command()
-    main_procedure(input_file, output_file)
+    command_args = parse_command()
+    main_procedure(command_args.input, command_args.output)
 
 
 if __name__ == '__main__':
