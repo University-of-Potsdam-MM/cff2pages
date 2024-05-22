@@ -17,7 +17,7 @@ def write_to_pub_folder(init_path, html_string):
     :param init_path: initial path in which the public folder should be placed
     :param html_string: content for the index.hml
     """
-    output_dir = os.path.path(init_path)[0]
+    output_dir = os.path.split(init_path)[0]
     path_assets = os.path.join(output_dir, 'assets')
     path_img = os.path.join(path_assets, 'img')
     path_css = os.path.join(path_assets, 'css')
