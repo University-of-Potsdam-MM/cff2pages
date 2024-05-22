@@ -129,8 +129,8 @@ def parse_command():
         nargs=1, 
         help='path to the output file'
     )
-    input_file, output_file = parser.parse_args()
-    return (input_file, output_file)
+    args = parser.parse_args()
+    return (args.input_file, args.output_file)
 
 
 def init_main():
