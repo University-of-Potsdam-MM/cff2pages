@@ -107,7 +107,7 @@ def main_procedure(cff_path, init_path):
     write_to_pub_folder(init_path, index_html)
 
 
-def parse_command(supported_formats):
+def parse_command():
     '''
     Parses options from the command line.
     
