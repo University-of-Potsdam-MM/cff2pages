@@ -319,7 +319,7 @@ expected_current = """<body>
 
 def check_folders(cls, tmp_dir):
     public_path = os.path.join(tmp_dir, 'public')
-    index_file = os.path.join(public_path, 'index.html')
+    index_file = os.path.join(public_path, 'cff2pages.html')
     cls.assertTrue(os.path.exists(public_path))
     cls.assertTrue(os.path.exists(index_file))
     return index_file
