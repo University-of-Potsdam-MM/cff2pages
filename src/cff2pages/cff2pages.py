@@ -18,6 +18,8 @@ def write_to_pub_folder(init_path, html_string):
     :param html_string: content for the index.hml
     """
     output_dir = os.path.split(init_path)[0]
+    if not output_dir:
+        outpit_dir = '.'
     path_assets = os.path.join(output_dir, 'assets')
     path_img = os.path.join(path_assets, 'img')
     path_css = os.path.join(path_assets, 'css')
