@@ -21,7 +21,7 @@ class MinimalCffTester(unittest.TestCase):
 
     def test_generated_minimal_html_body(self):
         with self.temp_dir as tmp_dir:
-            main_procedure(os.path.join(tmp_dir, self.minimal_filename), tmp_dir)
+            main_procedure(tmp_dir, os.path.join(tmp_dir, self.minimal_filename))
             index_file = check_folders(self, tmp_dir)
             with open(index_file, 'r') as index_html:
                 soup = BeautifulSoup(index_html.read(), 'html.parser')
@@ -140,7 +140,7 @@ class CurrentCffTester(unittest.TestCase):
 
     def test_generated_current_html_body(self):
         with self.temp_dir as tmp_dir:
-            main_procedure(os.path.join(tmp_dir, self.current_filename), tmp_dir)
+            main_procedure(tmp_dir, os.path.join(tmp_dir, self.current_filename))
             index_file = check_folders(self, tmp_dir)
             with open(index_file, 'r', encoding='utf-8') as index_html:
                 soup = BeautifulSoup(index_html.read(), 'html.parser')
