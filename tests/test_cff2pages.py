@@ -6,7 +6,7 @@ import toml
 from bs4 import BeautifulSoup
 from cffconvert.cli.create_citation import create_citation
 
-from src.cff2pages.cff2pages import main_procedure, get_unique_affiliations
+from src.cff2pages.cff2pages import main_procedure, get_unique_affiliations, guess_format
 
 
 class MinimalCffTester(unittest.TestCase):
