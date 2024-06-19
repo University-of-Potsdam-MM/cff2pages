@@ -89,7 +89,10 @@ def main_procedure(cff_path, init_path):
         loader=PackageLoader("cff2pages"),
         autoescape=select_autoescape()
     )
-    index_templ = env.get_template('base.html')
+    if output_format == '.html':
+        template = env.get_template('base.html')
+    else: # if not HTML then it must be Markdown
+        exit("Support for Markdown output has not been implemented yet.")
     if cff_path is None:
         cff_file = 'CITATION.cff'
     else:
@@ -103,7 +106,7 @@ def main_procedure(cff_path, init_path):
         logger.warning("No 'repository-code' found in CITATION.cff.")
     citation.cffobj['citation'] = {}
     citation.cffobj['citation']['apa'] = str(citation.as_apalike())
-    index_html = index_templ.render(citation.cffobj)
+    index_html = template.render(citation.cffobj)
     write_to_pub_folder(init_path, index_html)
 
 
