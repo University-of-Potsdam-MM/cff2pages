@@ -21,7 +21,8 @@ class MinimalCffTester(unittest.TestCase):
 
     def test_generated_minimal_html_body(self):
         with self.temp_dir as tmp_dir:
-            main_procedure(os.path.join(tmp_dir, self.minimal_filename), tmp_dir)
+            output_path = f'{tmp_dir}/public/cff2pages.html'
+            main_procedure(os.path.join(tmp_dir, self.minimal_filename), output_path)
             index_file = check_folders(self, tmp_dir)
             with open(index_file, 'r') as index_html:
                 soup = BeautifulSoup(index_html.read(), 'html.parser')
@@ -62,13 +63,13 @@ class MinimalCffTester(unittest.TestCase):
 expected_minimal_body = """<body>
 <div class="container">
     <div class="content">
-        
+
         <h1 class="blog-title"> Test CFF</h1>
 
-        
+
     <h2>
             Muster Mina
-            <sup>2</sup>, 
+            <sup>2</sup>,
             Minster Mana
             <sup>1</sup>
     </h2>
@@ -79,7 +80,7 @@ expected_minimal_body = """<body>
 
     </div>
 
-    
+
         <div class="citation">
             <p><b>cite as (APA):</b></p>
             <p id="citationText">Mina M., Mana M. Test CFF
@@ -140,6 +141,7 @@ class CurrentCffTester(unittest.TestCase):
 
     def test_generated_current_html_body(self):
         with self.temp_dir as tmp_dir:
+            output_path = f'{tmp_dir}/public/cff2pages.html'
             main_procedure(os.path.join(tmp_dir, self.current_filename), tmp_dir)
             index_file = check_folders(self, tmp_dir)
             with open(index_file, 'r', encoding='utf-8') as index_html:
@@ -153,13 +155,13 @@ class CurrentCffTester(unittest.TestCase):
 expected_current = """<body>
 <div class="container">
     <div class="content">
-        
+
         <h1 class="blog-title"> Test CFF</h1>
 
-        
+
     <h2>
             Muster Mina
-            <sup>2</sup>, 
+            <sup>2</sup>,
             Minster Mana
             <sup>1</sup>
     </h2>
@@ -181,9 +183,9 @@ expected_current = """<body>
                     </li>
             </ul>
         </div>
-    
 
-        
+
+
         <div class="badges"><a class="badge-item" href="https://github.com/organization/site" target="_blank">
                         <img src="./assets/img/github-logo.png" alt="Github Logo"></a>
                 <a href="https://github.com/organization/site" target="_blank">Repository</a>
@@ -191,7 +193,7 @@ expected_current = """<body>
                             <img src="https://archive.softwareheritage.org/badge/origin/https://github.com/organization/site"
                                  alt="Archived | https://github.com/organization/site"/>
                         </a>
-                    
+
                     <a href="https://doi.org/10.1111/zenodo.111111">
                         <img src="https://img.shields.io/badge/DOI_-10.1111/zenodo.111111-blue"
                              alt="DOI"/>
@@ -199,15 +201,15 @@ expected_current = """<body>
         </div>
 
 
-        
+
             <p class="licence"><b>License</b>: MIT</p>
-        
+
             <p class="abstract"><b>Abstract</b>: This is a test abstract.</p>
-        
+
         <div class="references-container">
             <h2>References</h2>
             <ul class="references-list">
-                
+
                     <li class="reference-item">
                     <span class="reference-icon" title="type software">
                         💻
@@ -216,61 +218,61 @@ expected_current = """<body>
                         <span class="reference-author">
                         Stephan Druskat<a href="https://orcid.org/0000-0003-4925-7248"><img decoding="async" alt=""
                                                               src="./assets/img/orcid_16x16.webp"
-                                                              style="width:16px; height:16px; margin:3px"/></a>, 
+                                                              style="width:16px; height:16px; margin:3px"/></a>,
                         Jurriaan H. Spaaks<a href="https://orcid.org/0000-0002-7064-4069"><img decoding="async" alt=""
                                                               src="./assets/img/orcid_16x16.webp"
-                                                              style="width:16px; height:16px; margin:3px"/></a>, 
+                                                              style="width:16px; height:16px; margin:3px"/></a>,
                         Neil Chue Hong<a href="https://orcid.org/0000-0002-8876-7606"><img decoding="async" alt=""
                                                               src="./assets/img/orcid_16x16.webp"
-                                                              style="width:16px; height:16px; margin:3px"/></a>, 
+                                                              style="width:16px; height:16px; margin:3px"/></a>,
                         Robert Haines<a href="https://orcid.org/0000-0002-9538-7919"><img decoding="async" alt=""
                                                               src="./assets/img/orcid_16x16.webp"
-                                                              style="width:16px; height:16px; margin:3px"/></a>, 
+                                                              style="width:16px; height:16px; margin:3px"/></a>,
                         James Baker<a href="https://orcid.org/0000-0002-2682-6922"><img decoding="async" alt=""
                                                               src="./assets/img/orcid_16x16.webp"
-                                                              style="width:16px; height:16px; margin:3px"/></a>, 
+                                                              style="width:16px; height:16px; margin:3px"/></a>,
                         Spencer Bliven<a href="https://orcid.org/0000-0002-1200-1698"><img decoding="async" alt=""
                                                               src="./assets/img/orcid_16x16.webp"
-                                                              style="width:16px; height:16px; margin:3px"/></a>, 
+                                                              style="width:16px; height:16px; margin:3px"/></a>,
                         Egon Willighagen<a href="https://orcid.org/0000-0001-7542-0286"><img decoding="async" alt=""
                                                               src="./assets/img/orcid_16x16.webp"
-                                                              style="width:16px; height:16px; margin:3px"/></a>, 
+                                                              style="width:16px; height:16px; margin:3px"/></a>,
                         David Pérez-Suárez<a href="https://orcid.org/0000-0003-0784-6909"><img decoding="async" alt=""
                                                               src="./assets/img/orcid_16x16.webp"
-                                                              style="width:16px; height:16px; margin:3px"/></a>, 
+                                                              style="width:16px; height:16px; margin:3px"/></a>,
                         Olexandr Konovalov<a href="https://orcid.org/0000-0001-5299-3292"><img decoding="async" alt=""
                                                               src="./assets/img/orcid_16x16.webp"
                                                               style="width:16px; height:16px; margin:3px"/></a>
                     </span>
-                        
+
                         <span class="reference-doi"><a href="https://doi.org/10.5281/zenodo.1003149"
                                                        target="_blank">10.5281/zenodo.1003149</a></span>
                     </li>
-                
+
                     <li class="reference-item">
                     <span class="reference-icon" title="type article">
                         📖
-                    
+
                     </span>
                         <span class="reference-title">Ya2RO: A tool for creating Research Object from minimum metadata</span>,
                         <span class="reference-author">
-                        Antonia Pavel, 
+                        Antonia Pavel,
                         Daniel Garijo<a href="https://orcid.org/0000-0003-0454-7145"><img decoding="async" alt=""
                                                               src="./assets/img/orcid_16x16.webp"
                                                               style="width:16px; height:16px; margin:3px"/></a>
                     </span>
                         <span class="year">2023</span>,
-                        
+
                         <span class="reference-doi"><a href="https://doi.org/10.4126/FRL01-006444984"
                                                        target="_blank">10.4126/FRL01-006444984</a></span>
                     </li>
-                
+
             </ul>
         </div>
 
     </div>
 
-    
+
         <div class="citation">
             <p><b>cite as (APA):</b></p>
             <p id="citationText">Mina M., Mana M. Test CFF (version 1.2.3). DOI: 10.1111/zenodo.111111 URL: https://github.com/organization/site
