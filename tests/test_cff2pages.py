@@ -142,7 +142,7 @@ class CurrentCffTester(unittest.TestCase):
     def test_generated_current_html_body(self):
         with self.temp_dir as tmp_dir:
             output_path = f'{tmp_dir}/public/cff2pages.html'
-            main_procedure(os.path.join(tmp_dir, self.current_filename), tmp_dir)
+            main_procedure(os.path.join(tmp_dir, self.current_filename), output_path)
             index_file = check_folders(self, tmp_dir)
             with open(index_file, 'r', encoding='utf-8') as index_html:
                 soup = BeautifulSoup(index_html.read(), 'html.parser')
