@@ -350,7 +350,7 @@ class OutputFormatTester(unittest.TestCase):
         output_filename = 'citation.html'
         guessed_output_format = guess_format(output_filename, supported_formats)
         expected_output_format = '.html'
-        self.assertEqual(guessed_output_format)
+        self.assertEqual(guessed_output_format, expected_output_format)
 
 if __name__ == '__main__':
     unittest.main()
