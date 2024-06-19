@@ -342,5 +342,13 @@ class VersionTester(unittest.TestCase):
         self.assertEqual(pyproject_data['project']['description'], citation.cffobj['abstract'])
 
 
+class OutputFormatTester(unittest.TestCase):
+    def test_guess_format(self):
+        supported_formats = ['.md', '.html']
+        output_filename = 'citation.html'
+        guessed_output_format = guess_format(output_filename, supported_formats)
+        expected_output_format = '.html'
+        self.assertEqual(guessed_output_format)
+
 if __name__ == '__main__':
     unittest.main()
