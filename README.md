@@ -23,7 +23,7 @@ page can serve as a vivid representation of your project on Github/Gitlab Pages.
 
 ## Usage
 
-````
+```` bash
 cd project_folder
 pip install cff2pages
 cff2pages

@@ -55,9 +55,8 @@ def copy_files_to(path_img, sub_folder, to_copy_files):
 def get_unique_affiliations(authors):
     unique_affiliation = list()
     for author in authors:
-        if unique_affiliation.count(author['affiliation']) == 0:
+        if 'affiliation' in author and unique_affiliation.count(author['affiliation']) == 0:
             unique_affiliation.append(author['affiliation'])
-    unique_affiliation.sort()
     return unique_affiliation
 
 
