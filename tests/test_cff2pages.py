@@ -210,28 +210,28 @@ expected_current = """<body>
                         <span class="reference-author">
                         Stephan Druskat<a href="https://orcid.org/0000-0003-4925-7248"><img decoding="async" alt=""
                                                               src="./assets/img/orcid_16x16.webp"
-                                                              style="width:16px; height:16px; margin:3px"/></a>,
+                                                              style="width:16px; height:16px; margin:3px"/></a>, 
                         Jurriaan H. Spaaks<a href="https://orcid.org/0000-0002-7064-4069"><img decoding="async" alt=""
                                                               src="./assets/img/orcid_16x16.webp"
-                                                              style="width:16px; height:16px; margin:3px"/></a>,
+                                                              style="width:16px; height:16px; margin:3px"/></a>, 
                         Neil Chue Hong<a href="https://orcid.org/0000-0002-8876-7606"><img decoding="async" alt=""
                                                               src="./assets/img/orcid_16x16.webp"
-                                                              style="width:16px; height:16px; margin:3px"/></a>,
+                                                              style="width:16px; height:16px; margin:3px"/></a>, 
                         Robert Haines<a href="https://orcid.org/0000-0002-9538-7919"><img decoding="async" alt=""
                                                               src="./assets/img/orcid_16x16.webp"
-                                                              style="width:16px; height:16px; margin:3px"/></a>,
+                                                              style="width:16px; height:16px; margin:3px"/></a>, 
                         James Baker<a href="https://orcid.org/0000-0002-2682-6922"><img decoding="async" alt=""
                                                               src="./assets/img/orcid_16x16.webp"
-                                                              style="width:16px; height:16px; margin:3px"/></a>,
+                                                              style="width:16px; height:16px; margin:3px"/></a>, 
                         Spencer Bliven<a href="https://orcid.org/0000-0002-1200-1698"><img decoding="async" alt=""
                                                               src="./assets/img/orcid_16x16.webp"
-                                                              style="width:16px; height:16px; margin:3px"/></a>,
+                                                              style="width:16px; height:16px; margin:3px"/></a>, 
                         Egon Willighagen<a href="https://orcid.org/0000-0001-7542-0286"><img decoding="async" alt=""
                                                               src="./assets/img/orcid_16x16.webp"
-                                                              style="width:16px; height:16px; margin:3px"/></a>,
+                                                              style="width:16px; height:16px; margin:3px"/></a>, 
                         David Pérez-Suárez<a href="https://orcid.org/0000-0003-0784-6909"><img decoding="async" alt=""
                                                               src="./assets/img/orcid_16x16.webp"
-                                                              style="width:16px; height:16px; margin:3px"/></a>,
+                                                              style="width:16px; height:16px; margin:3px"/></a>, 
                         Olexandr Konovalov<a href="https://orcid.org/0000-0001-5299-3292"><img decoding="async" alt=""
                                                               src="./assets/img/orcid_16x16.webp"
                                                               style="width:16px; height:16px; margin:3px"/></a>
@@ -246,7 +246,7 @@ expected_current = """<body>
                     </span>
                         <span class="reference-title">Ya2RO: A tool for creating Research Object from minimum metadata</span>,
                         <span class="reference-author">
-                        Antonia Pavel,
+                        Antonia Pavel, 
                         Daniel Garijo<a href="https://orcid.org/0000-0003-0454-7145"><img decoding="async" alt=""
                                                               src="./assets/img/orcid_16x16.webp"
                                                               style="width:16px; height:16px; margin:3px"/></a>
