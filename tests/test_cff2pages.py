@@ -69,7 +69,7 @@ expected_minimal_body = """<body>
 
     <h2>
             Muster Mina
-            <sup>2</sup>,
+            <sup>2</sup>, 
             Minster Mana
             <sup>1</sup>
     </h2>
@@ -161,7 +161,7 @@ expected_current = """<body>
 
     <h2>
             Muster Mina
-            <sup>2</sup>,
+            <sup>2</sup>, 
             Minster Mana
             <sup>1</sup>
     </h2>
