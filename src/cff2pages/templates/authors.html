@@ -2,7 +2,9 @@
     <h2>
         {%- for author in authors %}
             {{ author['given-names'] }} {{ author['family-names'] }}
-            <sup>{{ unique_affiliations.index(author.affiliation) + 1 }}</sup>
+            {%- if author.affiliation is defined -%}
+                <sup>{{ unique_affiliations.index(author.affiliation) + 1 }}</sup>
+            {%- endif %}
             {%- if author.orcid is defined -%}
                 <a href="{{ author.orcid }}"><img decoding="async" alt=""
                                                   src="./assets/img/orcid_16x16.webp"

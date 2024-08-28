@@ -52,12 +52,18 @@ class MinimalCffTester(unittest.TestCase):
                 'email': 'bj@pu.de',
                 'affiliation': 'PU',
                 'orcid': 'https://orcid.org/0000-0000-0000-1236'
-            }]
+            },
+            {
+                'given-names': 'Ba',
+                'family-names': 'Je',
+                'email': 'baje@pu.de',
+            }
+        ]
         unique_affiliation = get_unique_affiliations(authors)
         self.assertEqual(len(unique_affiliation), 2)
-        self.assertEqual(unique_affiliation.index(authors[0]['affiliation']), 1)
-        self.assertEqual(unique_affiliation.index(authors[1]['affiliation']), 1)
-        self.assertEqual(unique_affiliation.index(authors[2]['affiliation']), 0)
+        self.assertEqual(0, unique_affiliation.index(authors[0]['affiliation']), f'affiliation from {authors[0]["given-names"]} {authors[0]["family-names"]} should be placed at 0')
+        self.assertEqual(0, unique_affiliation.index(authors[1]['affiliation']), f'affiliation from {authors[1]["given-names"]} {authors[1]["family-names"]} should be placed at 0')
+        self.assertEqual(1, unique_affiliation.index(authors[2]['affiliation']), f'affiliation from {authors[2]["given-names"]} {authors[2]["family-names"]} should be placed at 1')
 
 
 expected_minimal_body = """<body>
@@ -68,22 +74,18 @@ expected_minimal_body = """<body>
 
 
     <h2>
-            Muster Mina
-            <sup>2</sup>, 
+            Muster Mina<sup>1</sup>, 
+            Minster Mana<sup>2</sup>, 
             Minster Mana
-            <sup>1</sup>
     </h2>
     <ul>
-        <sup>1</sup> : pu
-        <sup>2</sup> : up
-        </ul>
-
-    </div>
-
-
+        <sup>1</sup> : up
+        <sup>2</sup> : pu
+    </ul>
+</div>
         <div class="citation">
             <p><b>cite as (APA):</b></p>
-            <p id="citationText">Mina M., Mana M. Test CFF
+            <p id="citationText">Mina M., Mana M., Mana M. Test CFF
 </p>
             <button id="copyButton">copy citation</button>
             <div id="notification" class="notification">Copied!</div>
@@ -153,23 +155,19 @@ class CurrentCffTester(unittest.TestCase):
 
 
 expected_current = """<body>
+
 <div class="container">
     <div class="content">
-
         <h1 class="blog-title"> Test CFF</h1>
-
-
     <h2>
-            Muster Mina
-            <sup>2</sup>, 
-            Minster Mana
-            <sup>1</sup>
+            Muster Mina<sup>1</sup>, 
+            Minster Mana<sup>2</sup>, 
+            Manster Mona
     </h2>
     <ul>
-        <sup>1</sup> : pu
-        <sup>2</sup> : up
+        <sup>1</sup> : up
+        <sup>2</sup> : pu
         </ul>
-
         <div class="keyword-container">
             <b>Keywords:</b>
             <ul class="keyword-list"><li class="keyword-item">
@@ -183,9 +181,6 @@ expected_current = """<body>
                     </li>
             </ul>
         </div>
-
-
-
         <div class="badges"><a class="badge-item" href="https://github.com/organization/site" target="_blank">
                         <img src="./assets/img/github-logo.png" alt="Github Logo"></a>
                 <a href="https://github.com/organization/site" target="_blank">Repository</a>
@@ -199,9 +194,6 @@ expected_current = """<body>
                              alt="DOI"/>
                     </a>
         </div>
-
-
-
             <p class="licence"><b>License</b>: MIT</p>
 
             <p class="abstract"><b>Abstract</b>: This is a test abstract.</p>
@@ -244,7 +236,6 @@ expected_current = """<body>
                                                               src="./assets/img/orcid_16x16.webp"
                                                               style="width:16px; height:16px; margin:3px"/></a>
                     </span>
-
                         <span class="reference-doi"><a href="https://doi.org/10.5281/zenodo.1003149"
                                                        target="_blank">10.5281/zenodo.1003149</a></span>
                     </li>
@@ -252,7 +243,6 @@ expected_current = """<body>
                     <li class="reference-item">
                     <span class="reference-icon" title="type article">
                         📖
-
                     </span>
                         <span class="reference-title">Ya2RO: A tool for creating Research Object from minimum metadata</span>,
                         <span class="reference-author">
@@ -271,11 +261,9 @@ expected_current = """<body>
         </div>
 
     </div>
-
-
         <div class="citation">
             <p><b>cite as (APA):</b></p>
-            <p id="citationText">Mina M., Mana M. Test CFF (version 1.2.3). DOI: 10.1111/zenodo.111111 URL: https://github.com/organization/site
+            <p id="citationText">Mina M., Mana M., Mona M. Test CFF (version 1.2.3). DOI: 10.1111/zenodo.111111 URL: https://github.com/organization/site
 </p>
             <button id="copyButton">copy citation</button>
             <div id="notification" class="notification">Copied!</div>
@@ -304,8 +292,6 @@ expected_current = """<body>
                 }
             });
         </script>
-
-
 </div>
 
 <div class="footer-container">

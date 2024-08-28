@@ -11,6 +11,8 @@ authors:
   - given-names: Minster
     family-names: Mana
     affiliation: pu
+  - given-names: Manster
+    family-names: Mona
 version: 1.2.3
 repository-code: 'https://github.com/organization/site'
 identifiers:
