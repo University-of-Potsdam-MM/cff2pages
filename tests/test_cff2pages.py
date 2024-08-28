@@ -6,7 +6,7 @@ import toml
 from bs4 import BeautifulSoup
 from cffconvert.cli.create_citation import create_citation
 
-from src.cff2pages.cff2pages import main_procedure, get_unique_affiliations
+from src.cff2pages.cff2pages import main_procedure, get_unique_affiliations, guess_format
 
 
 class MinimalCffTester(unittest.TestCase):
@@ -21,7 +21,8 @@ class MinimalCffTester(unittest.TestCase):
 
     def test_generated_minimal_html_body(self):
         with self.temp_dir as tmp_dir:
-            main_procedure(tmp_dir, os.path.join(tmp_dir, self.minimal_filename))
+            output_path = f'{tmp_dir}/public/cff2pages.html'
+            main_procedure(os.path.join(tmp_dir, self.minimal_filename), output_path)
             index_file = check_folders(self, tmp_dir)
             with open(index_file, 'r') as index_html:
                 soup = BeautifulSoup(index_html.read(), 'html.parser')
@@ -68,10 +69,10 @@ class MinimalCffTester(unittest.TestCase):
 expected_minimal_body = """<body>
 <div class="container">
     <div class="content">
-        
+
         <h1 class="blog-title"> Test CFF</h1>
 
-        
+
     <h2>
             Muster Mina<sup>1</sup>, 
             Minster Mana<sup>2</sup>, 
@@ -80,8 +81,8 @@ expected_minimal_body = """<body>
     <ul>
         <sup>1</sup> : up
         <sup>2</sup> : pu
-        </ul>
-    </div>
+    </ul>
+</div>
         <div class="citation">
             <p><b>cite as (APA):</b></p>
             <p id="citationText">Mina M., Mana M., Mana M. Test CFF
@@ -142,7 +143,8 @@ class CurrentCffTester(unittest.TestCase):
 
     def test_generated_current_html_body(self):
         with self.temp_dir as tmp_dir:
-            main_procedure(tmp_dir, os.path.join(tmp_dir, self.current_filename))
+            output_path = f'{tmp_dir}/public/cff2pages.html'
+            main_procedure(os.path.join(tmp_dir, self.current_filename), output_path)
             index_file = check_folders(self, tmp_dir)
             with open(index_file, 'r', encoding='utf-8') as index_html:
                 soup = BeautifulSoup(index_html.read(), 'html.parser')
@@ -186,20 +188,20 @@ expected_current = """<body>
                             <img src="https://archive.softwareheritage.org/badge/origin/https://github.com/organization/site"
                                  alt="Archived | https://github.com/organization/site"/>
                         </a>
-                    
+
                     <a href="https://doi.org/10.1111/zenodo.111111">
                         <img src="https://img.shields.io/badge/DOI_-10.1111/zenodo.111111-blue"
                              alt="DOI"/>
                     </a>
         </div>
             <p class="licence"><b>License</b>: MIT</p>
-        
+
             <p class="abstract"><b>Abstract</b>: This is a test abstract.</p>
-        
+
         <div class="references-container">
             <h2>References</h2>
             <ul class="references-list">
-                
+
                     <li class="reference-item">
                     <span class="reference-icon" title="type software">
                         💻
@@ -237,7 +239,7 @@ expected_current = """<body>
                         <span class="reference-doi"><a href="https://doi.org/10.5281/zenodo.1003149"
                                                        target="_blank">10.5281/zenodo.1003149</a></span>
                     </li>
-                
+
                     <li class="reference-item">
                     <span class="reference-icon" title="type article">
                         📖
@@ -250,11 +252,11 @@ expected_current = """<body>
                                                               style="width:16px; height:16px; margin:3px"/></a>
                     </span>
                         <span class="year">2023</span>,
-                        
+
                         <span class="reference-doi"><a href="https://doi.org/10.4126/FRL01-006444984"
                                                        target="_blank">10.4126/FRL01-006444984</a></span>
                     </li>
-                
+
             </ul>
         </div>
 
@@ -305,7 +307,7 @@ expected_current = """<body>
 
 def check_folders(cls, tmp_dir):
     public_path = os.path.join(tmp_dir, 'public')
-    index_file = os.path.join(public_path, 'index.html')
+    index_file = os.path.join(public_path, 'cff2pages.html')
     cls.assertTrue(os.path.exists(public_path))
     cls.assertTrue(os.path.exists(index_file))
     return index_file
@@ -327,6 +329,14 @@ class VersionTester(unittest.TestCase):
         print(pyproject_data['project']['version'])
         self.assertEqual(pyproject_data['project']['description'], citation.cffobj['abstract'])
 
+
+class OutputFormatTester(unittest.TestCase):
+    def test_guess_format(self):
+        supported_formats = ['.md', '.html']
+        output_filename = 'citation.html'
+        guessed_output_format = guess_format(output_filename, supported_formats)
+        expected_output_format = '.html'
+        self.assertEqual(guessed_output_format, expected_output_format)
 
 if __name__ == '__main__':
     unittest.main()
