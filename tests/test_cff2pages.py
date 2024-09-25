@@ -313,6 +313,86 @@ def check_folders(cls, tmp_dir):
     return index_file
 
 
+class DiacriticsCffTester(unittest.TestCase):
+    def setUp(self):
+        self.temp_dir = tempfile.TemporaryDirectory()
+        self.diacritics_filename = 'diacritics.cff'
+        test_file = os.path.join(os.path.dirname(__file__), self.diacritics_filename)
+        shutil.copy2(test_file, self.temp_dir.name)
+
+    def tearDown(self):
+        self.temp_dir.cleanup()
+
+    def test_generated_discritics_html_body(self):
+        with self.temp_dir as tmp_dir:
+            output_path = f'{tmp_dir}/public/cff2pages.html'
+            main_procedure(os.path.join(tmp_dir, self.diacritics_filename), output_path)
+            index_file = check_folders(self, tmp_dir)
+            with open(index_file, 'r') as index_html:
+                soup = BeautifulSoup(index_html.read(), 'html.parser')
+                actual_body = soup.find('body')
+                expected_body = BeautifulSoup(expected_diacritics_body, 'html.parser')
+                self.assertEqual(actual_body.prettify(), expected_body.prettify())
+
+
+expected_diacritics_body = """<body>
+<div class="container">
+<div class="content">
+<h1 class="blog-title"> Test minimal CFF with diacritics</h1>
+<h2>
+            Antonio Rüdiger<sup>1</sup>, 
+            İlkay Gündoğan<sup>2</sup>, 
+            Aleksandar Pavlović<sup>3</sup>, 
+            Hasret Kayikçi<sup>4</sup>
+</h2>
+<ul>
+<sup>1</sup> : Real Madrid
+        <sup>2</sup> : Manchester City
+        <sup>3</sup> : FC Bayern München
+        <sup>4</sup> : SC Freiburg
+        </ul>
+</div>
+<div class="citation">
+<p><b>cite as (APA):</b></p>
+<p id="citationText">Rüdiger A., Gündoğan İ., Pavlović A., Kayikçi H. Test minimal CFF with diacritics
+</p>
+<button id="copyButton">copy citation</button>
+<div class="notification" id="notification">Copied!</div>
+</div>
+<script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const copyButton = document.getElementById('copyButton');
+                if (copyButton) {
+                    copyButton.addEventListener('click', function () {
+                        const citationText = document.getElementById('citationText').innerText;
+                        navigator.clipboard.writeText(citationText)
+                            .then(() => {
+                                // Zeige die Benachrichtigung
+                                const notification = document.getElementById('notification');
+                                notification.style.opacity = '1';
+
+                                // Verstecke die Benachrichtigung nach 3 Sekunden
+                                setTimeout(() => {
+                                    notification.style.opacity = '0';
+                                }, 3000);
+                            })
+                            .catch(err => {
+                                console.error('Errors in the copy process: ', err);
+                            });
+                    });
+                }
+            });
+        </script>
+</div>
+<div class="footer-container">
+<footer class="footer">
+<p>Generated with <a href="https://github.com/University-of-Potsdam-MM/cff2pages" target="_blank">cff2pages</a>.
+        </p>
+</footer>
+</div>
+</body>""" # noqa
+
+
 class VersionTester(unittest.TestCase):
     def test_version_cff_toml(self):
         # Load and parse pyproject.toml
