@@ -40,7 +40,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -e .
           pip install sphinx
-          cff2pages
+          cff2pages -o public/index.html
 
       - name: Build Sphinx Documentation
         run: |
