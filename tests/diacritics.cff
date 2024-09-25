@@ -1,0 +1,22 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: Test minimal CFF with diacritics
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Antonio
+    family-names: Rüdiger
+    affiliation: Real Madrid
+  - given-names: İlkay
+    family-names: Gündoğan
+    affiliation: Manchester City
+  - given-names: Aleksandar
+    family-names: Pavlović
+    affiliation: FC Bayern München
+  - given-names: Hasret
+    family-names: Kayikçi
+    affiliation: SC Freiburg
