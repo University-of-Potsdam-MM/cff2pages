@@ -1,6 +1,7 @@
 import os
-import shutil
 import logging
+import shutil
+from argparse import ArgumentParser, FileType
 from pathlib import Path
 
 from jinja2 import Environment, PackageLoader, select_autoescape
@@ -9,7 +10,6 @@ from cffconvert.cli.create_citation import create_citation
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.WARNING)
 
-
 def write_to_pub_folder(init_path, html_string):
     """
     creates a public folder and creates an index file with the given content in  it
@@ -17,20 +17,21 @@ def write_to_pub_folder(init_path, html_string):
     :param init_path: initial path in which the public folder should be placed
     :param html_string: content for the index.hml
     """
-    path_public = os.path.join(init_path, 'public')
-    path_assets = os.path.join(path_public, 'assets')
+    output_dir = os.path.split(init_path)[0]
+    if not output_dir:
+        output_dir = '.'
+    path_assets = os.path.join(output_dir, 'assets')
     path_img = os.path.join(path_assets, 'img')
     path_css = os.path.join(path_assets, 'css')
 
     # create all needed folders
-    for folder in [path_public, path_assets, path_img, path_css]:
+    for folder in [output_dir, path_assets, path_img, path_css]:
         if not os.path.exists(folder):
             os.mkdir(folder)
 
     # write index file
-    index_html_path = os.path.join(path_public, 'index.html')
-    with open(index_html_path, 'w', encoding='utf-8') as file:
-        file.write(html_string)
+    with open(init_path, 'w', encoding='utf-8') as fh:
+        fh.write(html_string)
 
     # cp image files
     orcid_logo = 'orcid_16x16.webp'
@@ -40,7 +41,7 @@ def write_to_pub_folder(init_path, html_string):
     copy_files_to(path_img, 'img', [orcid_logo, github_logo, gitlab_logo])
 
     # cp css file
-    css_file = 'default.css'
+    css_file = 'cff2pages.css'
 
     copy_files_to(path_css, 'css', [css_file])
 
@@ -60,7 +61,17 @@ def get_unique_affiliations(authors):
     return unique_affiliation
 
 
-def main_procedure(init_path, cff_path):
+def guess_format(filename, supported_formats):
+    """
+    extracts the file extension and raises a ValueError if the extension is not one of our supported formats.
+    """
+    extension = os.path.splitext(filename)[-1]
+    if extension in supported_formats:
+        return extension
+    else:
+        raise ValueError(f'Extension of given output file ({filename}) is not one of the supported formats. Formats currently supported: ({supported_formats}).')
+
+def main_procedure(cff_path, init_path):
     """
     function to process all steps in the main method
 
@@ -68,13 +79,19 @@ def main_procedure(init_path, cff_path):
     :param init_path: initial path in which the public folder should be placed
 
     """
+    # extract extension of output filename
+    supported_formats = ['.html', '.md'] # list of output file formats we currently support
+    output_format = guess_format(init_path, supported_formats)
 
     print(init_path)
     env = Environment(
         loader=PackageLoader("cff2pages"),
         autoescape=select_autoescape()
     )
-    index_templ = env.get_template('index.html')
+    if output_format == '.html':
+        template = env.get_template('base.html')
+    else: # if not HTML then it must be Markdown
+        exit("Support for Markdown output has not been implemented yet.")
     if cff_path is None:
         cff_file = 'CITATION.cff'
     else:
@@ -88,12 +105,39 @@ def main_procedure(init_path, cff_path):
         logger.warning("No 'repository-code' found in CITATION.cff.")
     citation.cffobj['citation'] = {}
     citation.cffobj['citation']['apa'] = str(citation.as_apalike())
-    index_html = index_templ.render(citation.cffobj)
+    index_html = template.render(citation.cffobj)
     write_to_pub_folder(init_path, index_html)
 
 
+def parse_command():
+    '''
+    Parses options from the command line.
+    
+    Returns: a tuple of the option values (input_file, output_file).
+    '''
+    parser = ArgumentParser(
+        prog='cff2pages',
+        description='Converts citation information in Citation File Format into HTML or Markdown'
+    )
+    parser.add_argument(
+        '-i', '--input', 
+        default='./CITATION.cff', 
+        nargs='?', 
+        help='path to the input CFF file'
+    )
+    parser.add_argument(
+        '-o', '--output', 
+        default='public/citation.html', 
+        nargs='?', 
+        help='path to the output file'
+    )
+    args = parser.parse_args()
+    return args
+
+
 def init_main():
-    main_procedure(os.getcwd(), None)
+    command_args = parse_command()
+    main_procedure(command_args.input, command_args.output)
 
 
 if __name__ == '__main__':
