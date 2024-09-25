@@ -1,3 +1,12 @@
+{#
+File: authors_macro.html
+Description: This template renders a block for displaying author names, affiliations, and ORCID links in a formatted list.
+Usage: {% from 'authors_macro.html' import authors_block %}
+Variables:
+    - authors (list): List of authors
+    - unique_affiliations (list): List of unique affiliations for displaying author affiliations.
+#}
+
 {% macro authors_block(authors, unique_affiliations) %}
     <h2>
         {%- for author in authors %}

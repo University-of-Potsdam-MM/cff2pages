@@ -10,6 +10,7 @@ from cffconvert.cli.create_citation import create_citation
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.WARNING)
 
+
 def write_to_pub_folder(init_path, html_string):
     """
     creates a public folder and creates an index file with the given content in  it
@@ -47,6 +48,13 @@ def write_to_pub_folder(init_path, html_string):
 
 
 def copy_files_to(path_img, sub_folder, to_copy_files):
+    """
+    copies all static files from path_img folder to the destination folder
+
+    :param path_img: destination folder
+    :param sub_folder: parent folder where files are copied to
+    :param to_copy_files: files which needs to be copied
+    """
     for to_copy_file in to_copy_files:
         image_path = Path(__file__).parent.joinpath('resources').joinpath(sub_folder).joinpath(
             to_copy_file)
@@ -54,6 +62,12 @@ def copy_files_to(path_img, sub_folder, to_copy_files):
 
 
 def get_unique_affiliations(authors):
+    """
+    Accumulate the affiliations of all authors, without duplicates
+
+    :param authors: authorlist from the cff file
+    :return: a list of unique affiliations
+    """
     unique_affiliation = list()
     for author in authors:
         if 'affiliation' in author and unique_affiliation.count(author['affiliation']) == 0:
@@ -70,6 +84,7 @@ def guess_format(filename, supported_formats):
         return extension
     else:
         raise ValueError(f'Extension of given output file ({filename}) is not one of the supported formats. Formats currently supported: ({supported_formats}).')
+
 
 def main_procedure(cff_path, init_path):
     """
@@ -110,11 +125,11 @@ def main_procedure(cff_path, init_path):
 
 
 def parse_command():
-    '''
+    """
     Parses options from the command line.
     
     Returns: a tuple of the option values (input_file, output_file).
-    '''
+    """
     parser = ArgumentParser(
         prog='cff2pages',
         description='Converts citation information in Citation File Format into HTML or Markdown'
@@ -136,6 +151,7 @@ def parse_command():
 
 
 def init_main():
+    """ init procedure """
     command_args = parse_command()
     main_procedure(command_args.input, command_args.output)
 
