@@ -10,16 +10,29 @@ from src.cff2pages.cff2pages import main_procedure, get_unique_affiliations, gue
 
 
 class MinimalCffTester(unittest.TestCase):
+    """
+    Tests to create a html based on a minimal cff documentation.
+    """
+
     def setUp(self):
+        """
+        Creates a temporary directory with the minimal cff
+        """
         self.temp_dir = tempfile.TemporaryDirectory()
         self.minimal_filename = 'minimal.cff'
         test_file = os.path.join(os.path.dirname(__file__), self.minimal_filename)
         shutil.copy2(test_file, self.temp_dir.name)
 
     def tearDown(self):
+        """
+        Deletes temporary directories
+        """
         self.temp_dir.cleanup()
 
     def test_generated_minimal_html_body(self):
+        """
+        Creates a HTML with the minimal cff and compares it with the expected HTML
+        """
         with self.temp_dir as tmp_dir:
             output_path = f'{tmp_dir}/public/cff2pages.html'
             main_procedure(os.path.join(tmp_dir, self.minimal_filename), output_path)
@@ -31,6 +44,9 @@ class MinimalCffTester(unittest.TestCase):
                 self.assertEqual(actual_body.prettify(), expected_body.prettify())
 
     def test_authors_affiliation(self):
+        """
+        Tests the method which takes and aggregates the authors affiliations
+        """
         authors = [
             {
                 'given-names': 'J',
@@ -61,9 +77,12 @@ class MinimalCffTester(unittest.TestCase):
         ]
         unique_affiliation = get_unique_affiliations(authors)
         self.assertEqual(len(unique_affiliation), 2)
-        self.assertEqual(0, unique_affiliation.index(authors[0]['affiliation']), f'affiliation from {authors[0]["given-names"]} {authors[0]["family-names"]} should be placed at 0')
-        self.assertEqual(0, unique_affiliation.index(authors[1]['affiliation']), f'affiliation from {authors[1]["given-names"]} {authors[1]["family-names"]} should be placed at 0')
-        self.assertEqual(1, unique_affiliation.index(authors[2]['affiliation']), f'affiliation from {authors[2]["given-names"]} {authors[2]["family-names"]} should be placed at 1')
+        self.assertEqual(0, unique_affiliation.index(authors[0]['affiliation']),
+                         f'affiliation from {authors[0]["given-names"]} {authors[0]["family-names"]} should be placed at 0')
+        self.assertEqual(0, unique_affiliation.index(authors[1]['affiliation']),
+                         f'affiliation from {authors[1]["given-names"]} {authors[1]["family-names"]} should be placed at 0')
+        self.assertEqual(1, unique_affiliation.index(authors[2]['affiliation']),
+                         f'affiliation from {authors[2]["given-names"]} {authors[2]["family-names"]} should be placed at 1')
 
 
 expected_minimal_body = """<body>
@@ -126,22 +145,34 @@ expected_minimal_body = """<body>
     </footer>
 </div>
 
-</body>""" # noqa
+</body>"""  # noqa
 
 
 class CurrentCffTester(unittest.TestCase):
+    """
+    Test class to test all features for creating pages
+    """
     maxDiff = None
 
     def setUp(self):
+        """
+        Creates a temporary directory with the Current cff
+        """
         self.temp_dir = tempfile.TemporaryDirectory()
         self.current_filename = 'current.cff'
         test_file = os.path.join(os.path.dirname(__file__), self.current_filename)
         shutil.copy2(test_file, self.temp_dir.name)
 
     def tearDown(self):
+        """
+        Deletes the temporary directories
+        """
         self.temp_dir.cleanup()
 
     def test_generated_current_html_body(self):
+        """
+        Tests if the generated HTML from current cff is correct. Compares it with the expected HTML
+        """
         with self.temp_dir as tmp_dir:
             output_path = f'{tmp_dir}/public/cff2pages.html'
             main_procedure(os.path.join(tmp_dir, self.current_filename), output_path)
@@ -151,7 +182,8 @@ class CurrentCffTester(unittest.TestCase):
                 actual_body = soup.find('body')
                 expected_body = BeautifulSoup(expected_current, 'html.parser')
                 print(actual_body.prettify())
-                self.assertEqual(actual_body.prettify(), expected_body.prettify())
+                self.assertEqual(actual_body.prettify(), expected_body.prettify(),
+                                 msg="The generation of the current HTML is not correct.")
 
 
 expected_current = """<body>
@@ -302,10 +334,17 @@ expected_current = """<body>
     </footer>
 </div>
 
-</body>""" # noqa
+</body>"""  # noqa
 
 
 def check_folders(cls, tmp_dir):
+    """
+    Tests if the temp_dir was created and have the necessary files in it.
+
+    :param cls: Test class which does the assertion process.
+    :param tmp_dir: Directory where the files are stored.
+    :return: Path to the html
+    """
     public_path = os.path.join(tmp_dir, 'public')
     index_file = os.path.join(public_path, 'cff2pages.html')
     cls.assertTrue(os.path.exists(public_path))
@@ -323,7 +362,10 @@ class DiacriticsCffTester(unittest.TestCase):
     def tearDown(self):
         self.temp_dir.cleanup()
 
-    def test_generated_discritics_html_body(self):
+    def test_generated_diacritics_html_body(self):
+        """
+        Tests if there are any diacritics in the generated HTML
+        """
         with self.temp_dir as tmp_dir:
             output_path = f'{tmp_dir}/public/cff2pages.html'
             main_procedure(os.path.join(tmp_dir, self.diacritics_filename), output_path)
@@ -393,30 +435,46 @@ expected_diacritics_body = """<body>
 </body>""" # noqa
 
 
-class VersionTester(unittest.TestCase):
+class CffTomlComparer(unittest.TestCase):
+    """
+    Testing class to verify that the various aspects between toml and cff are the same.
+    """
     def test_version_cff_toml(self):
+        """
+        Compares cff and toml version
+        """
         # Load and parse pyproject.toml
         with open('pyproject.toml', 'r') as f:
             pyproject_data = toml.load(f)
         citation = create_citation('CITATION.cff', None)
-        self.assertEqual(pyproject_data['project']['version'], citation.cffobj['version'])
+        self.assertEqual(pyproject_data['project']['version'], citation.cffobj['version'],
+                         "The version of the CFF and toml are not the same.")
 
     def test_abstract_cff_toml(self):
+        """
+        Compares abstracts of cff and toml
+        :return:
+        """
         # Load and parse pyproject.toml
         with open('pyproject.toml', 'r') as f:
             pyproject_data = toml.load(f)
         citation = create_citation('CITATION.cff', None)
         print(pyproject_data['project']['version'])
-        self.assertEqual(pyproject_data['project']['description'], citation.cffobj['abstract'])
+        self.assertEqual(pyproject_data['project']['description'], citation.cffobj['abstract'],
+                         "Descriptions of the toml and the abstract of the cff are not the same.")
 
 
 class OutputFormatTester(unittest.TestCase):
     def test_guess_format(self):
+        """
+        tests if the output format like html or md were guessed correctly
+        """
         supported_formats = ['.md', '.html']
         output_filename = 'citation.html'
         guessed_output_format = guess_format(output_filename, supported_formats)
         expected_output_format = '.html'
-        self.assertEqual(guessed_output_format, expected_output_format)
+        self.assertEqual(guessed_output_format, expected_output_format, "Expected to have an HTML output format.")
+
 
 if __name__ == '__main__':
     unittest.main()

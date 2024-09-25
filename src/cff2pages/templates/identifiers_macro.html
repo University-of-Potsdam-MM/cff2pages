@@ -1,3 +1,22 @@
+{#
+File: identifier_macro.html
+Description: This file defines a macro `identifier_block` that generates a series of badge links for repositories and identifiers such as GitHub, GitLab, Software Heritage (SWH), and DOI. It supports repository links and identifiers, displaying appropriate badges based on the type of identifier or repository.
+Usage: `{% from 'identifiers_macro.html' import identifier_block %}`
+Parameters:
+    - identifiers (list of dicts): A list of identifier objects, where each object contains:
+        - 'type' (string): The type of identifier ('swh' for Software Heritage or 'doi' for Digital Object Identifier).
+        - 'value' (string): The identifier value (e.g., the DOI number or SWH link).
+    - repository (string): The URL of the repository, which could be a GitHub or GitLab repository. If the URL is present, a corresponding badge for the repository is displayed.
+Features:
+    - Generates GitHub or GitLab repository badges.
+    - Generates Software Heritage (SWH) badges if 'swh' identifier or repository is provided.
+    - Generates DOI badges if 'doi' identifier is provided.
+    - All links open in new tabs (`target="_blank"`).
+    - Responsive badge layout using CSS.
+Dependencies:
+    - External badge images for GitHub, GitLab, Software Heritage, and DOI.
+    - URLs passed in the `repository` and `identifier['value']` variables must be valid and publicly accessible.
+#}
 {% macro identifier_block(identifiers, repository) %}
     {%- if identifiers is defined %}
         <div class="badges">

@@ -1,3 +1,22 @@
+{#
+File: citation_macro.html
+Description: This file defines a macro `cite_as` which generates an APA-style citation block, complete with a copy-to-clipboard button and notification. The macro outputs HTML, CSS, and JavaScript for copying the citation text to the clipboard.
+Usage: `{% from 'citation_macro.html' import cite_as %}`
+Parameters:
+    - citation (dict): A dictionary that should include at least an 'apa' key for the citation text in APA format.
+        Example:
+        citation = {
+            'apa': 'Author, A. A. (Year). Title of work. Publisher.',
+            'mla': 'Author, A. A. "Title of Work." Publisher, Year.'
+        }
+Features:
+    - Displays citation in APA format.
+    - Includes a copy button that copies the citation text to the clipboard.
+    - Shows a notification confirming the copy action.
+Dependencies:
+    - Relies on a `citation['apa']` key in the passed dictionary.
+    - Requires browser support for the Clipboard API (for copy functionality).
+#}
 {% macro cite_as(citation) %}
     {%- if citation is defined %}
         <div class="citation">
