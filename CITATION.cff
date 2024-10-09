@@ -3,7 +3,7 @@
 
 cff-version: 1.2.0
 title: "cff2pages: An HTML Generator Based on Your Citation.cff File"
-version: 0.1.2
+version: 0.2.0
 message: >-
   If you use this software, please cite it using the
   metadata from this file.
