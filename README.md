@@ -40,7 +40,7 @@ pages:
   image: python:3.11
   script:
     - python -m pip install cff2pages
-    - cff2pages
+    - cff2pages -o public/index.html
   artifacts:
     paths:
       - public
@@ -65,7 +65,7 @@ pages:
         run: |
           python -m pip install --upgrade pip
           pip install cff2pages
-          cff2pages
+          cff2pages -o public/index.html
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Upload artifact
