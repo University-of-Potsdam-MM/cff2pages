@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.2.0 (2024-10-09) Starting to convert to md output
+
+* Added support for HTML and Markdown output.
+  * Implemented argument parsing for input file and output path.
+  * **Behavior change**: The default output file is now `public/citation.html`.
+  * Markdown output is not yet fully supported.
+* Included a "Cite As" box in the HTML output.
+* Fixed issue allowing authors without affiliations.
+* Refactored templates to encapsulate all modules.
+* Added docstrings; Sphinx documentation to be added in the future.
+
 ## 0.1.0 (2023-09-06) Added references
 
 * convert references
