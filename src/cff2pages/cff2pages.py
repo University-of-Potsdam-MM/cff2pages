@@ -8,7 +8,7 @@ from jinja2 import Environment, PackageLoader, select_autoescape
 from cffconvert.cli.create_citation import create_citation
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.WARNING)
+logger.setLevel(logging.INFO)
 
 def write_to_pub_folder(init_path, html_string):
     """
@@ -44,6 +44,7 @@ def write_to_pub_folder(init_path, html_string):
     css_file = 'cff2pages.css'
 
     copy_files_to(path_css, 'css', [css_file])
+    logger.info('Output written to ' + init_path + '. Output path can be adjusted using the -o option.')
 
 
 def copy_files_to(path_img, sub_folder, to_copy_files):
@@ -102,7 +103,7 @@ def main_procedure(cff_path, init_path):
     if 'repository-code' in citation.cffobj:
         citation.cffobj['repository'] = citation.cffobj['repository-code']
     else:
-        logger.warning("No 'repository-code' found in CITATION.cff.")
+        logger.warning("Warning: No 'repository-code' found in CITATION.cff.")
     citation.cffobj['citation'] = {}
     citation.cffobj['citation']['apa'] = str(citation.as_apalike())
     index_html = template.render(citation.cffobj)
