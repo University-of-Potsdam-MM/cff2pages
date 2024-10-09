@@ -139,13 +139,13 @@ def parse_command():
         '-i', '--input', 
         default='./CITATION.cff', 
         nargs='?', 
-        help='path to the input CFF file'
+        help='path to the input CFF file. Default: ./CITATION.cff'
     )
     parser.add_argument(
         '-o', '--output', 
         default='public/citation.html', 
         nargs='?', 
-        help='path to the output file'
+        help='path to the output file. Default: public/citation.html'
     )
     args = parser.parse_args()
     return args
