@@ -23,11 +23,29 @@ page can serve as a vivid representation of your project on Github/Gitlab Pages.
 
 ## Usage
 
+```
+usage: cff2pages [-h] [-i [INPUT]] [-o [OUTPUT]]
+
+Converts citation information in Citation File Format into HTML or Markdown
+
+options:
+  -h, --help            show this help message and exit
+  -i [INPUT], --input [INPUT]
+                        path to the input CFF file. Default: ./CITATION.cff
+  -o [OUTPUT], --output [OUTPUT]
+                        path to the output file. Default: public/citation.html
+```
+
+### Example
+
 ```` bash
 cd project_folder
 pip install cff2pages
 cff2pages
 ````
+
+By default, output will be written to `public/citation.html`.
+
 
 ### Gitlab CI Runner
 
@@ -76,36 +94,3 @@ pages:
         id: deployment
         uses: actions/deploy-pages@v2
 ````
-
-## Roadmap
-
-- [x] 0.0.1 version in pypi
-- [ ] convert all cff-attributes
-  - [x] abstract
-  - [x] authors
-  - [ ] cff-version
-  - [ ] commit
-  - [ ] contact
-  - [ ] date
-  - [ ] doi
-  - [ ] identifiers
-    - [x] doi
-    - [x] swh
-    - [ ] url
-  - [x] keywords
-  - [x] license
-  - [ ] license-url
-  - [ ] message
-  - [ ] preferred-citation
-  - [x] references (new, but not published!)
-  - [ ] repository
-  - [ ] repository-artifact
-  - [x] repository-code
-  - [x] title
-  - [ ] type
-  - [ ] url
-  - [ ] version
-- [x] simple conversion from cff to html
-- [x] working samples for GitHub and gitlab
-- [ ] integrate cff2pages into given html
-- [ ] change styles
