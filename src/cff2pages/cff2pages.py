@@ -105,9 +105,11 @@ def main_procedure(cff_path, init_path):
         autoescape=select_autoescape()
     )
     if output_format == '.html':
-        template = env.get_template('base.html')
+        template = env.get_template('html/base.html')
+    elif output_format == '.md':
+        template = env.get_template('md/base.md')
     else: # if not HTML then it must be Markdown
-        exit("Support for Markdown output has not been implemented yet.")
+        exit(f'Invalid output format: {output_format}')
     if cff_path is None:
         cff_file = 'CITATION.cff'
     else:
