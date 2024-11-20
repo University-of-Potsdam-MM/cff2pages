@@ -1,5 +1,6 @@
 {%- from 'md/authors_macro.md' import authors_block -%}
 {%- from 'md/identifiers_macro.md' import identifier_block -%}
+{%- from 'md/reference_macro.md' import references_block -%}
 # {{ title }}
 
 {{ authors_block(authors, unique_affiliations) -}}
@@ -11,7 +12,4 @@
 - Keyword 2
 - Keyword 3
 
-## References
-
-- Reference 1
-- Reference 2
+{{ references_block(references) }}
