@@ -16,7 +16,7 @@ Dependencies:
 #}
 {% macro keyword_block(keywords) %}
     {%- if keywords is defined -%}
-# Keywords
+## Keywords
 
         {%- for keyword in keywords %}
 - {{ keyword }}
