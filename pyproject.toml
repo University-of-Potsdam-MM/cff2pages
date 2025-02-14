@@ -8,7 +8,7 @@ version = "0.2.0"
 authors = [
     { name = "Jan Bernoth", email = "jan.bernoth@uni-potsdam.de" },
 ]
-description = "This repository generates pages for GitHub or GitLab based on your CFF. This means that your CFF is well-suited for both machine processing and human readability."
+description = "This repository generates HTML pages or Markdown sites for GitHub and GitLab based on your Citation.cff file. This ensures that your CFF is optimized for both machine processing and human readability."
 readme = "README.md"
 requires-python = ">=3.11"
 classifiers = [
