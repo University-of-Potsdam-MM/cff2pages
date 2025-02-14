@@ -2,7 +2,7 @@
 # Visit https://bit.ly/cffinit to generate yours today!
 
 cff-version: 1.2.0
-title: "cff2pages: An HTML Generator Based on Your Citation.cff File"
+title: "cff2pages: Generate Markup from Your Citation.cff File"
 version: 0.2.0
 message: >-
   If you use this software, please cite it using the
@@ -27,9 +27,8 @@ identifiers:
     type: doi
     value: "10.5281/zenodo.8213986"
 abstract: >-
-  This repository generates pages for GitHub or GitLab based
-  on your CFF. This means that your CFF is well-suited for
-  both machine processing and human readability.
+  This repository generates HTML pages or Markdown sites for GitHub and GitLab based on your Citation.cff file.
+  This ensures that your CFF is optimized for both machine processing and human readability.
 keywords:
   - cff
   - documentation
