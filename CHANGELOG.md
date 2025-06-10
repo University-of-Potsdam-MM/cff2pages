@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.0 (soon) Conversion to md
+
+* created jinja templates to convert into md files in the same style as HTML files
+* reworked tests, based on cff files in tests/fixtures a test searches for md and html files in tests/expected
+
 ## 0.2.0 (2024-10-09) Starting to convert to md output
 
 * Added support for HTML and Markdown output.

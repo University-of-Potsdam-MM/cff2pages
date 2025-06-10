@@ -4,6 +4,7 @@ import shutil
 import tempfile
 import unittest
 import toml
+import markdown
 from bs4 import BeautifulSoup
 from cffconvert.cli.create_citation import create_citation
 
@@ -102,18 +103,20 @@ def remove_script_tags(soup):
     return soup
 
 
-def check_folders(cls, tmp_dir):
+def check_folders(cls, tmp_dir, file_format):
     """
     Tests if the temp_dir was created and have the necessary files in it.
 
     :param cls: Test class which does the assertion process.
     :param tmp_dir: Directory where the files are stored.
-    :return: Path to the html
+    :param file_format: The file format which was created.
+    :return: Path to the file
     """
+
     public_path = os.path.join(tmp_dir, 'public')
-    index_file = os.path.join(public_path, 'cff2pages.html')
+    index_file = os.path.join(public_path, 'cff2pages.' + file_format)
     cls.assertTrue(os.path.exists(public_path))
-    cls.assertTrue(os.path.exists(index_file))
+    cls.assertTrue(os.path.exists(index_file), f'There is no file for the {file_format} format.')
     return index_file
 
 
@@ -135,6 +138,9 @@ class CffToHtmlTester(unittest.TestCase):
         """
         self.temp_dir.cleanup()
 
+    def normalize_md(text):
+        return "\n".join(line.strip() for line in text.strip().splitlines() if line.strip())
+
     def test_cff_files(self):
         """
         Iterate over all .cff files in the fixtures directory, convert them to HTML,
@@ -144,21 +150,22 @@ class CffToHtmlTester(unittest.TestCase):
         cff_files = glob.glob(fixtures_path)
 
         for cff_file in cff_files:
-            with self.subTest(cff_file=cff_file):
-                file_name = os.path.basename(cff_file)
+            file_name = os.path.basename(cff_file)
+            tmp_dir = self.temp_dir.name
+            shutil.copy2(cff_file, tmp_dir)
+            input_path = os.path.join(tmp_dir, file_name)
+
+            # Subtest for HTML conversion
+            with self.subTest(cff_file=cff_file, format="html"):
                 expected_file = os.path.join(os.path.dirname(__file__), EXPECTED_DIR,
                                              f"expected_{file_name.replace('.cff', '_body.html')}")
 
                 if not os.path.exists(expected_file):
                     self.fail(f"Expected file missing: {expected_file}")
-
-                tmp_dir = self.temp_dir.name
                 output_path = os.path.join(tmp_dir, "public", "cff2pages.html")
-                shutil.copy2(cff_file, tmp_dir)
-
                 # Convert CFF to HTML
-                main_procedure(os.path.join(tmp_dir, file_name), output_path)
-                index_file = check_folders(self, tmp_dir)
+                main_procedure(input_path, output_path)
+                index_file = check_folders(self, tmp_dir, "html")
 
                 # Read the generated and expected HTML content
                 actual_body = read_div_from_body(index_file, div_class="container")
@@ -170,6 +177,22 @@ class CffToHtmlTester(unittest.TestCase):
 
                 # Compare the prettified HTML structures
                 self.assertEqual(actual_body_cleaned.prettify(), expected_body_cleaned.prettify())
+
+            # Subtest placeholder for Markdown conversion
+            with self.subTest(cff_file=cff_file, format="md"):
+                expected_file = os.path.join(os.path.dirname(__file__), EXPECTED_DIR,
+                                            f"expected_{file_name.replace('.cff', '.md')}")
+                output_path = os.path.join(tmp_dir, "public", "cff2pages.md")
+                main_procedure(input_path, output_path)
+                index_file = check_folders(self, tmp_dir, "md")
+                with open(index_file, encoding="utf-8") as f:
+                    actual_html =  markdown.markdown(f.read())
+                with open(expected_file, encoding="utf-8") as f:
+                    expected_html = markdown.markdown(f.read())
+
+                self.assertEqual(actual_html, expected_html)
+
+
 
 class CffTomlComparer(unittest.TestCase):
     """
