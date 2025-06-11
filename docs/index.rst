@@ -20,6 +20,7 @@ You can view the generated web pages here:
    about
    usage
    integration
+   testing
 
 Indices and tables
 ==================

@@ -40,6 +40,10 @@ jobs:
         run: |
           mkdir -p docs/_static/citation
           cff2pages -o docs/_static/citation/index.html
+          cff2pages -i tests/fixtures/current.cff -o docs/_static/citation/current.html
+          cff2pages -i tests/fixtures/minimal.cff -o docs/_static/citation/minimal.html
+          cff2pages -i tests/fixtures/diacritics.cff -o docs/_static/citation/diacritics.html
+          
 
       - name: Build Sphinx Documentation
         run: |
