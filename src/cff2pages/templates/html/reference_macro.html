@@ -51,13 +51,15 @@ Dependencies:
             <ul class="references-list">
                 {% for reference in references %}
                     <li class="reference-item">
-                    <span class="reference-icon" title="type {{ reference.type }}">
-                    {%- if reference.type == 'article' %}
-                        📖
-                    {% elif reference.type == 'software' %}
-                        💻
-                    {%- endif %}
-                    </span>
+                        <span class="reference-icon" title="type {{ reference.type }}">
+                        {%- if reference.type == 'article' %}
+                            📖
+                        {% elif reference.type == 'software' %}
+                            💻
+                        {% else %}
+                            <i>type: {{ reference.type }}  </i>
+                        {%- endif %}
+                        </span>
                         <span class="reference-title">{{ reference.title }}</span>,
                         <span class="reference-author">
                     {%- for author in reference['authors'] %}
@@ -69,8 +71,8 @@ Dependencies:
                         {%- endif %}
                         {%- if not loop.last %},{% endif %}
                     {%- endfor %}
-                    </span>
-                        {% if reference.year %}<span class="year">{{ reference.year }}</span>,
+                        </span>
+                        {% if reference.year %}, <span class="year">{{ reference.year }}</span>,
                         {% endif %}
                         <span class="reference-doi"><a href="https://doi.org/{{ reference.doi }}"
                                                        target="_blank">{{ reference.doi }}</a></span>

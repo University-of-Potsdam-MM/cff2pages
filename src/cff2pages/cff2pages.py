@@ -99,7 +99,7 @@ def main_procedure(cff_path, init_path):
     supported_formats = ['.html', '.md'] # list of output file formats we currently support
     output_format = guess_format(init_path, supported_formats)
 
-    print(init_path)
+    logger.info(init_path)
     env = Environment(
         loader=PackageLoader("cff2pages"),
         autoescape=select_autoescape()

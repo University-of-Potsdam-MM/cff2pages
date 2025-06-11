@@ -133,12 +133,21 @@ class CffToHtmlTester(unittest.TestCase):
         Set up a temporary directory for processing files.
         """
         self.temp_dir = tempfile.TemporaryDirectory()
+        self.maxDiff = None
 
     def tearDown(self):
         """
         Clean up the temporary directory after each test.
         """
         self.temp_dir.cleanup()
+
+    def _save_failed_html(self, actual_path, file_name):
+        """Copy failed output to tests/failed/ for inspection"""
+        failed_dir = Path("tests/failed")
+        failed_dir.mkdir(parents=True, exist_ok=True)
+        dest = failed_dir / file_name
+        shutil.copy2(actual_path, dest)
+        print(f"Copied failed output to: {dest}")
 
     def normalize_md(text):
         return "\n".join(line.strip() for line in text.strip().splitlines() if line.strip())
@@ -158,7 +167,8 @@ class CffToHtmlTester(unittest.TestCase):
             input_path = os.path.join(tmp_dir, file_name)
 
             # Subtest for HTML conversion
-            with self.subTest(cff_file=cff_file, format="html"):
+            with self.subTest(f'file: {file_name}, format: html', cff_file=cff_file):
+                print(f'file: {file_name}, format: html')
                 expected_file = os.path.join(os.path.dirname(__file__), EXPECTED_DIR,
                                              f"expected_{file_name.replace('.cff', '_body.html')}")
 
@@ -178,10 +188,15 @@ class CffToHtmlTester(unittest.TestCase):
                 expected_body_cleaned = remove_script_tags(expected_body)
 
                 # Compare the prettified HTML structures
-                self.assertEqual(actual_body_cleaned.prettify(), expected_body_cleaned.prettify())
+                try:
+                    assert actual_body_cleaned.prettify() == expected_body_cleaned.prettify()
+                except AssertionError as e:
+                    self._save_failed_html(output_path, file_name + "_failed_output.html")
+                    raise e
 
-            # Subtest placeholder for Markdown conversion
-            with self.subTest(cff_file=cff_file, format="md"):
+            # Subtest for MD conversion
+            with self.subTest(msg=f'file: {file_name}, format: md', cff_file=cff_file):
+                print(f'file: {file_name}, format: md')
                 expected_file = os.path.join(os.path.dirname(__file__), EXPECTED_DIR,
                                             f"expected_{file_name.replace('.cff', '.md')}")
                 output_path = os.path.join(tmp_dir, "public", "cff2pages.md")

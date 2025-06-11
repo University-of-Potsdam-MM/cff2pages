@@ -32,6 +32,17 @@ keywords:
 license: MIT
 references:
   - authors:
+     - family-names: Bernoth
+       given-names: Jan
+       orcid: https://orcid.org/0000-0002-4127-0053
+     - family-names: Hodges
+       given-names: Toby
+       orcid: https://orcid.org/0000-0003-1766-456X
+    title: "cff2pages: Generate Markup from Your Citation.cff File"
+    doi: 10.5281/zenodo.15638585
+    type: conference-paper
+    year: 2025
+  - authors:
       - family-names: Druskat
         given-names: Stephan
         orcid: https://orcid.org/0000-0003-4925-7248
