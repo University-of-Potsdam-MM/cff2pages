@@ -1,10 +1,13 @@
 # Changelog
 
-## 0.2.1 (soon) Conversion to md
+## 0.2.1 (2025-06-11) Conversion to md
 
 * created jinja templates to convert into md files in the same style as HTML files
 * reworked tests, based on cff files in tests/fixtures a test searches for md and html files in tests/expected
 * rework documentation that Github Actions produces documentations as well and link to the cff2pages generated page
+  * generated docs from README
+  * integrated changelog into docs
+* updated toml to give more metadata
 
 ## 0.2.0 (2024-10-09) Starting to convert to md output
 
