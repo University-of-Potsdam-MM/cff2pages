@@ -1,22 +1,25 @@
-.. cff2pages documentation master file, created by
-   sphinx-quickstart on Fri Feb  9 13:55:14 2024.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+.. cff2pages documentation master file
 
 Welcome to cff2pages's documentation!
 =====================================
+
+``cff2pages`` transforms Citation.cff metadata into user-friendly HTML pages or Markdown files.
+
+
+Citation Page
+-------------
+
+You can view the machine-generated citation metadata as a webpage:
+
+`View Citation Page <_static/citation/index.html>`_
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
-   index
-   introduction
-   installation
-   quickstart
-   api_reference
-
-
+   about
+   usage
+   integration
 
 Indices and tables
 ==================
