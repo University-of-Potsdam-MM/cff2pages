@@ -6,12 +6,12 @@ Welcome to cff2pages's documentation!
 ``cff2pages`` transforms Citation.cff metadata into user-friendly HTML pages or Markdown files.
 
 
-Citation Page
+Examples
 -------------
 
-You can view the machine-generated citation metadata as a webpage:
+You can view the generated web pages here:
 
-`View Citation Page <_static/citation/index.html>`_
+- ``cff2pages -o  index.html`` `index.html <_static/citation/index.html>`_
 
 .. toctree::
    :maxdepth: 2

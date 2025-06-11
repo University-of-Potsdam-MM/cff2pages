@@ -43,7 +43,7 @@ jobs:
 
       - name: Build Sphinx Documentation
         run: |
-          sphinx-build -b html docs/ public/docs
+          sphinx-build -b html docs/ public
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
