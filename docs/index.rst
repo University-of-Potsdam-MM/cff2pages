@@ -22,6 +22,7 @@ You can view the generated web pages here:
    integration
    testing
    changelog
+   release_checklist
 
 Indices and tables
 ==================

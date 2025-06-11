@@ -8,7 +8,7 @@ dynamic = ["version"]
 authors = [
     { name = "Jan Bernoth", email = "jan.bernoth@uni-potsdam.de" },
 ]
-keywords = ["citation", "cff", "html", "research software"]
+keywords = ["citation", "cff", "html", "markdown", "research software"]
 maintainers = [
     { name = "Jan Bernoth", email = "jan.bernoth@uni-potsdam.de" }
 ]
@@ -33,6 +33,7 @@ license = { text = "MIT" }
 "Documentation" = "https://github.com/University-of-Potsdam-MM/cff2pages"
 "Bug Tracker" = "https://github.com/University-of-Potsdam-MM/cff2pages/issues"
 "Repository" = "https://github.com/University-of-Potsdam-MM/cff2pages/"
+"Changelog" = "https://university-of-potsdam-mm.github.io/cff2pages/changelog.html"
 
 [project.scripts]
 cff2pages = "cff2pages.cff2pages:init_main"
