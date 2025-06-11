@@ -9,3 +9,4 @@ beautifulsoup4 ~= 4.13.4
 markdown ~= 3.8
 sphinx ~= 8.2.3
 sphinx-rtd-theme ~= 3.0.2
+myst-parser ~= 4.0.1

@@ -4,9 +4,13 @@ build-backend = "hatchling.build"
 
 [project]
 name = "cff2pages"
-version = "0.2.0"
+dynamic = ["version"]
 authors = [
     { name = "Jan Bernoth", email = "jan.bernoth@uni-potsdam.de" },
+]
+keywords = ["citation", "cff", "html", "research software"]
+maintainers = [
+    { name = "Jan Bernoth", email = "jan.bernoth@uni-potsdam.de" }
 ]
 description = "This repository generates HTML pages or Markdown sites for GitHub and GitLab based on your Citation.cff file. This ensures that your CFF is optimized for both machine processing and human readability."
 readme = "README.md"
@@ -21,10 +25,14 @@ dependencies = [
     'Jinja2>=3.1.6',
     'cffconvert>=2.0.0'
 ]
-
+license = { text = "MIT" }
+[tool.hatch.version]
+    path = "src/cff2pages/__init__.py"
 [project.urls]
 "Homepage" = "https://github.com/University-of-Potsdam-MM/cff2pages"
+"Documentation" = "https://github.com/University-of-Potsdam-MM/cff2pages"
 "Bug Tracker" = "https://github.com/University-of-Potsdam-MM/cff2pages/issues"
+"Repository" = "https://github.com/University-of-Potsdam-MM/cff2pages/"
 
 [project.scripts]
 cff2pages = "cff2pages.cff2pages:init_main"
@@ -36,4 +44,9 @@ test = [
     "toml ~= 0.10.2",
     "beautifulsoup4 ~= 4.13.4",
     "markdown ~= 3.8"
+]
+docs = [
+    "sphinx ~= 7.2.6",
+    "sphinx-rtd-theme ~= 1.3.0",
+    "myst-parser ~= 4.0.1"
 ]

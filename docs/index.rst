@@ -21,6 +21,7 @@ You can view the generated web pages here:
    usage
    integration
    testing
+   changelog
 
 Indices and tables
 ==================

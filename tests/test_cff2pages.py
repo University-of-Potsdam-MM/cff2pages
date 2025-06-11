@@ -5,6 +5,8 @@ import tempfile
 import unittest
 import toml
 import markdown
+import re
+from pathlib import Path
 from bs4 import BeautifulSoup
 from cffconvert.cli.create_citation import create_citation
 
@@ -199,16 +201,22 @@ class CffTomlComparer(unittest.TestCase):
     Testing class to verify that the various aspects between toml and cff are the same.
     """
 
-    def test_version_cff_toml(self):
+    def test_version_from_code_matches_cff(self):
         """
-        Compares cff and toml version
+        Ensures the __version__ in src/cff2pages/__init__.py matches the version in CITATION.cff
         """
-        # Load and parse pyproject.toml
-        with open('pyproject.toml', 'r') as f:
-            pyproject_data = toml.load(f)
+        # Get version from __init__.py
+        init_path = Path("src/cff2pages/__init__.py").read_text(encoding="utf-8")
+        match = re.search(r"^__version__\s*=\s*['\"]([^'\"]+)['\"]", init_path, re.MULTILINE)
+        self.assertIsNotNone(match, "Could not find __version__ in __init__.py")
+        code_version = match.group(1)
+
+        # Get version from CITATION.cff
         citation = create_citation('CITATION.cff', None)
-        self.assertEqual(pyproject_data['project']['version'], citation.cffobj['version'],
-                         "The version of the CFF and toml are not the same.")
+        cff_version = citation.cffobj["version"]
+
+        # Compare
+        self.assertEqual(code_version, cff_version, "Version mismatch between __init__.py and CITATION.cff")
 
     def test_abstract_cff_toml(self):
         """
@@ -219,7 +227,6 @@ class CffTomlComparer(unittest.TestCase):
         with open('pyproject.toml', 'r') as f:
             pyproject_data = toml.load(f)
         citation = create_citation('CITATION.cff', None)
-        print(pyproject_data['project']['version'])
         self.assertEqual(pyproject_data['project']['description'], citation.cffobj['abstract'],
                          "Descriptions of the toml and the abstract of the cff are not the same.")
 
