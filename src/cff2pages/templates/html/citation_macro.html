@@ -17,6 +17,8 @@ Dependencies:
     - Relies on a `citation['apa']` key in the passed dictionary.
     - Requires browser support for the Clipboard API (for copy functionality).
 #}
+
+
 {% macro cite_as(citation) %}
     {%- if citation is defined %}
         <div class="citation">

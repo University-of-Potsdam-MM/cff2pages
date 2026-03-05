@@ -1,7 +1,7 @@
 import os
 import logging
 import shutil
-from argparse import ArgumentParser, FileType
+from argparse import ArgumentParser
 from pathlib import Path
 
 from jinja2 import Environment, PackageLoader, select_autoescape
@@ -87,12 +87,13 @@ def guess_format(filename, supported_formats):
         raise ValueError(f'Extension of given output file ({filename}) is not one of the supported formats. Formats currently supported: ({supported_formats}).')
 
 
-def main_procedure(cff_path, init_path):
+def main_procedure(cff_path, init_path, show_citation_box=True):
     """
     function to process all steps in the main method
 
     :param cff_path: path to cff file
     :param init_path: initial path in which the public folder should be placed
+    :param show_citation_box: bool, show/hide citation box (default=True)
 
     """
     # extract extension of output filename
@@ -123,7 +124,7 @@ def main_procedure(cff_path, init_path):
         logger.warning("Warning: No 'repository-code' found in CITATION.cff.")
     citation.cffobj['citation'] = {}
     citation.cffobj['citation']['apa'] = str(citation.as_apalike())
-    index_html = template.render(citation.cffobj)
+    index_html = template.render(citation.cffobj, show_citation_box=show_citation_box)
     write_to_pub_folder(init_path, index_html)
 
 
@@ -149,6 +150,11 @@ def parse_command():
         nargs='?', 
         help='path to the output file. Default: public/citation.html'
     )
+    parser.add_argument(
+        '-cb', '--no-citation-box',
+        action='store_true',
+        help='Disable citation box'
+    )
     args = parser.parse_args()
     return args
 
@@ -156,7 +162,7 @@ def parse_command():
 def init_main():
     """ init procedure """
     command_args = parse_command()
-    main_procedure(command_args.input, command_args.output)
+    main_procedure(command_args.input, command_args.output, show_citation_box=not command_args.no_citation_box)
 
 
 if __name__ == '__main__':

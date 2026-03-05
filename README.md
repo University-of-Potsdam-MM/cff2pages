@@ -34,6 +34,8 @@ options:
                         path to the input CFF file. Default: ./CITATION.cff
   -o [OUTPUT], --output [OUTPUT]
                         path to the output file. Default: public/citation.html
+  -cb, --no-citation-box
+                        Disable citation box. 
 ```
 
 ### Example

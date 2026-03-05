@@ -194,6 +194,33 @@ class CffToHtmlTester(unittest.TestCase):
                     self._save_failed_html(output_path, file_name + "_failed_output.html")
                     raise e
 
+            # Subtest for HTML conversion WITHOUT citation box (only for current.cff)
+            if file_name == "current.cff":
+                with self.subTest(f'file: {file_name}, format: html, no citation box'):
+                    expected_file = os.path.join(
+                        os.path.dirname(__file__),
+                        EXPECTED_DIR,
+                        "expected_current_body_no_cb.html"
+                    )
+
+                    output_path = os.path.join(tmp_dir, "public", "cff2pages.html")
+
+                    main_procedure(input_path, output_path, show_citation_box=False)
+                    index_file = check_folders(self, tmp_dir, "html")
+
+                    actual_body = read_div_from_body(index_file, div_class="container")
+                    expected_body = read_div_from_body(expected_file, div_class="container")
+
+                    actual_body_cleaned = remove_script_tags(actual_body)
+                    expected_body_cleaned = remove_script_tags(expected_body)
+
+                    self.assertEqual(
+                        actual_body_cleaned.prettify(),
+                        expected_body_cleaned.prettify()
+                    )
+
+
+
             # Subtest for MD conversion
             with self.subTest(msg=f'file: {file_name}, format: md', cff_file=cff_file):
                 print(f'file: {file_name}, format: md')
@@ -208,6 +235,27 @@ class CffToHtmlTester(unittest.TestCase):
                     expected_html = markdown.markdown(f.read())
 
                 self.assertEqual(actual_html, expected_html)
+
+            # Subtest for MD conversion WITHOUT citation box (only for current.cff)
+            if file_name == "current.cff":
+                with self.subTest(msg=f'file: {file_name}, format: md, no citation box'):
+                    expected_file = os.path.join(
+                        os.path.dirname(__file__),
+                        EXPECTED_DIR,
+                        "expected_current_no_cb.md"
+                    )
+
+                    output_path = os.path.join(tmp_dir, "public", "cff2pages.md")
+                    main_procedure(input_path, output_path, show_citation_box=False)
+                    index_file = check_folders(self, tmp_dir, "md")
+
+                    with open(index_file, encoding="utf-8") as f:
+                        actual_html = markdown.markdown(f.read())
+
+                    with open(expected_file, encoding="utf-8") as f:
+                        expected_html = markdown.markdown(f.read())
+
+                    self.assertEqual(actual_html, expected_html)
 
 
 

@@ -11,6 +11,9 @@
 
 {{ keyword_block(keywords) }}
 
-{{ cite_as(citation) }}
+{% if show_citation_box is not defined or show_citation_box %}
+    {{ cite_as(citation) }}
+{% endif %}
+
 
 {{ references_block(references) }}
