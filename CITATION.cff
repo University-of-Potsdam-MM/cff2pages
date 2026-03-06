@@ -18,6 +18,11 @@ authors:
     family-names: Hodges
     affiliation: The Carpentries
     orcid: 'https://orcid.org/0000-0003-1766-456X'
+  - given-names: Souvik
+    family-names: Sarkar
+    email: souvik.sarkar@uni-potsdam.de
+    affiliation: University of Potsdam
+    orcid: https://orcid.org/0009-0008-4352-6180
 repository-code: 'https://github.com/University-of-Potsdam-MM/cff2pages'
 identifiers:
   - description: The archive of this project in Software Heritage. All persistent versions are accessible via this directory.
