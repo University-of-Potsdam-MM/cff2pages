@@ -3,6 +3,7 @@ import logging
 import shutil
 from argparse import ArgumentParser
 from pathlib import Path
+import json
 
 from jinja2 import Environment, PackageLoader, select_autoescape
 from cffconvert.cli.create_citation import create_citation
@@ -115,16 +116,34 @@ def main_procedure(cff_path, init_path, show_citation_box=True):
         cff_file = 'CITATION.cff'
     else:
         cff_file = cff_path
-    citation = create_citation(cff_file, None)
-    citation.validate()
-    citation.cffobj['unique_affiliations'] = get_unique_affiliations((citation.cffobj['authors']))
-    if 'repository-code' in citation.cffobj:
-        citation.cffobj['repository'] = citation.cffobj['repository-code']
+
+    if cff_file.endswith('.json'):
+        with open(cff_file, 'r', encoding='utf-8') as f:
+            codemeta = json.load(f)
+
+        citation_data = {
+            "title": codemeta.get("name"),
+            "abstract": codemeta.get("description"),
+            "version": codemeta.get("version"),
+            "repository": codemeta.get("codeRepository"),
+            "date_released": codemeta.get("datePublished"),
+            "authors": codemeta.get("author", [])
+        }
+
+        index_html = template.render(citation_data, show_citation_box=show_citation_box)
+
     else:
-        logger.warning("Warning: No 'repository-code' found in CITATION.cff.")
-    citation.cffobj['citation'] = {}
-    citation.cffobj['citation']['apa'] = str(citation.as_apalike())
-    index_html = template.render(citation.cffobj, show_citation_box=show_citation_box)
+        citation = create_citation(cff_file, None)
+        citation.validate()
+        citation.cffobj['unique_affiliations'] = get_unique_affiliations((citation.cffobj['authors']))
+        if 'repository-code' in citation.cffobj:
+            citation.cffobj['repository'] = citation.cffobj['repository-code']
+        else:
+            logger.warning("Warning: No 'repository-code' found in CITATION.cff.")
+        citation.cffobj['citation'] = {}
+        citation.cffobj['citation']['apa'] = str(citation.as_apalike())
+        index_html = template.render(citation.cffobj, show_citation_box=show_citation_box)
+
     write_to_pub_folder(init_path, index_html)
 
 
