@@ -117,17 +117,27 @@ def main_procedure(cff_path, init_path, show_citation_box=True):
     else:
         cff_file = cff_path
 
+
     if cff_file.endswith('.json'):
         with open(cff_file, 'r', encoding='utf-8') as f:
             codemeta = json.load(f)
 
+        authors = []
+        for a in codemeta.get("author", []):
+            authors.append({
+                "given-names": a.get("givenName"),
+                "family-names": a.get("familyName"),
+                "email": a.get("email")
+            })
+
         citation_data = {
             "title": codemeta.get("name"),
-            "abstract": codemeta.get("description"),
+            "description": codemeta.get("description"),
             "version": codemeta.get("version"),
             "repository": codemeta.get("codeRepository"),
-            "date_released": codemeta.get("datePublished"),
-            "authors": codemeta.get("author", [])
+            "date-released": codemeta.get("datePublished"),
+            "authors": authors,
+            "citation": {}
         }
 
         index_html = template.render(citation_data, show_citation_box=show_citation_box)
