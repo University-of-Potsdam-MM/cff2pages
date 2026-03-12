@@ -88,6 +88,103 @@ def guess_format(filename, supported_formats):
         raise ValueError(f'Extension of given output file ({filename}) is not one of the supported formats. Formats currently supported: ({supported_formats}).')
 
 
+def codemeta_to_apa_citation(codemeta, authors):
+    """
+    creates citation of a codemeta file for the citation box.
+    """
+
+    parts = []
+    author_names = []
+
+    for a in authors:
+        family = a.get("family-names", "")
+        given = a.get("given-names", "")
+
+        initial = ""
+        if given:
+            initial = given[0] + "."
+
+        name = f"{family}, {initial}"
+        author_names.append(name)
+
+    if len(author_names) == 1:
+        parts.append(author_names[0])
+
+    elif len(author_names) == 2:
+        parts.append(f"{author_names[0]} & {author_names[1]}")
+
+    elif len(author_names) > 2:
+        parts.append(", ".join(author_names[:-1]) + f", & {author_names[-1]}")
+
+    title = codemeta.get("title") or codemeta.get("name")
+    if title:
+        parts.append(title + ".")
+
+    version = codemeta.get("version")
+    if version:
+        parts.append(f"(Version {version}).")
+
+    doi = codemeta.get("doi")
+    if doi:
+        parts.append(f"DOI: {doi}")
+    repo = (
+            codemeta.get("codeRepository")
+            or codemeta.get("repository")
+            or codemeta.get("repository-code")
+    )
+    if repo:
+        repo = repo.replace(".git", "")
+        parts.append(f"URL: {repo}")
+
+    return " ".join(parts)
+
+def create_metadata_dict(codemeta):
+    """
+        parses and creates a dictionary for a codemeta file.
+    """
+
+    authors = []
+    identifiers = []
+
+    doi = codemeta.get("doi")
+
+    if doi:
+        identifiers.append({
+            "type": "doi",
+            "value": doi,
+            "description": "Zenodo DOI of the software"
+        })
+
+    for a in codemeta.get("author", []):
+        authors.append({
+            "given-names": a.get("givenName"),
+            "family-names": a.get("familyName"),
+            "email": a.get("email"),
+            "affiliation": a.get("affiliation"),
+            "orcid": a.get("id")
+        })
+
+    unique_affiliations = get_unique_affiliations(authors)
+    citation_text = codemeta_to_apa_citation(codemeta, authors)
+
+    citation_data = {
+        "title": codemeta.get("title"),
+        "abstract": codemeta.get("abstract"),
+        "version": codemeta.get("version"),
+        "repository": codemeta.get("repository-code"),
+        "license": codemeta.get("license"),
+        "date-released": codemeta.get("datePublished"),
+        "authors": authors,
+        "unique_affiliations": unique_affiliations,
+        "keywords": codemeta.get("keywords", []),
+        "identifiers": identifiers,
+        "references": codemeta.get("references", []),
+        "citation": {"apa": citation_text}
+    }
+
+    return citation_data
+
+
 def main_procedure(cff_path, init_path, show_citation_box=True):
     """
     function to process all steps in the main method
@@ -117,28 +214,11 @@ def main_procedure(cff_path, init_path, show_citation_box=True):
     else:
         cff_file = cff_path
 
-
     if cff_file.endswith('.json'):
         with open(cff_file, 'r', encoding='utf-8') as f:
             codemeta = json.load(f)
 
-        authors = []
-        for a in codemeta.get("author", []):
-            authors.append({
-                "given-names": a.get("givenName"),
-                "family-names": a.get("familyName"),
-                "email": a.get("email")
-            })
-
-        citation_data = {
-            "title": codemeta.get("name"),
-            "description": codemeta.get("description"),
-            "version": codemeta.get("version"),
-            "repository": codemeta.get("codeRepository"),
-            "date-released": codemeta.get("datePublished"),
-            "authors": authors,
-            "citation": {}
-        }
+        citation_data = create_metadata_dict(codemeta)
 
         index_html = template.render(citation_data, show_citation_box=show_citation_box)
 
@@ -171,7 +251,7 @@ def parse_command():
         '-i', '--input', 
         default='./CITATION.cff', 
         nargs='?', 
-        help='path to the input CFF file. Default: ./CITATION.cff'
+        help='path to the input metadata file (CITATION.cff or codemeta.json). Default: ./CITATION.cff'
     )
     parser.add_argument(
         '-o', '--output', 
