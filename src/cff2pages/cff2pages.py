@@ -99,12 +99,9 @@ def codemeta_to_apa_citation(codemeta, authors):
     for a in authors:
         family = a.get("family-names", "")
         given = a.get("given-names", "")
+        initial = f"{given[0]}." if given else ""
 
-        initial = ""
-        if given:
-            initial = given[0] + "."
-
-        name = f"{family}, {initial}"
+        name = f"{family} {initial},"
         author_names.append(name)
 
     if len(author_names) == 1:
@@ -116,52 +113,50 @@ def codemeta_to_apa_citation(codemeta, authors):
     elif len(author_names) > 2:
         parts.append(", ".join(author_names[:-1]) + f", & {author_names[-1]}")
 
-    title = codemeta.get("title") or codemeta.get("name")
+    title = codemeta.get("title")
     if title:
         parts.append(title + ".")
 
     version = codemeta.get("version")
     if version:
-        parts.append(f"(Version {version}).")
+        parts.append(f"(version {version}).")
 
-    doi = codemeta.get("doi")
-    if doi:
-        parts.append(f"DOI: {doi}")
-    repo = (
-            codemeta.get("codeRepository")
-            or codemeta.get("repository")
-            or codemeta.get("repository-code")
-    )
+    for identifier in codemeta.get("identifiers", []):
+        if identifier.get("type") == "doi":
+            parts.append(f"DOI: {identifier.get('value')}")
+            break
+    repo = codemeta.get("repository-code")
+
     if repo:
-        repo = repo.replace(".git", "")
         parts.append(f"URL: {repo}")
 
     return " ".join(parts)
 
 def create_metadata_dict(codemeta):
     """
-        parses and creates a dictionary for a codemeta file.
+    parses and creates a dictionary for a codemeta file.
     """
 
-    authors = []
-    identifiers = []
+    identifiers = codemeta.get("identifiers", [])
+    authors = codemeta.get("authors", [])
 
-    doi = codemeta.get("doi")
+    references = []
 
-    if doi:
-        identifiers.append({
-            "type": "doi",
-            "value": doi,
-            "description": "Zenodo DOI of the software"
-        })
+    for ref in codemeta.get("references", []):
+        ref_authors = []
+        for a in ref.get("authors", []):
+            ref_authors.append({
+                "family-names": a.get("family-names"),
+                "given-names": a.get("given-names"),
+                "orcid": a.get("orcid")
+            })
 
-    for a in codemeta.get("author", []):
-        authors.append({
-            "given-names": a.get("givenName"),
-            "family-names": a.get("familyName"),
-            "email": a.get("email"),
-            "affiliation": a.get("affiliation"),
-            "orcid": a.get("id")
+        references.append({
+            "authors": ref_authors,
+            "title": ref.get("title"),
+            "doi": ref.get("doi"),
+            "type": ref.get("type"),
+            "year": ref.get("year")
         })
 
     unique_affiliations = get_unique_affiliations(authors)
@@ -178,7 +173,7 @@ def create_metadata_dict(codemeta):
         "unique_affiliations": unique_affiliations,
         "keywords": codemeta.get("keywords", []),
         "identifiers": identifiers,
-        "references": codemeta.get("references", []),
+        "references": references,
         "citation": {"apa": citation_text}
     }
 

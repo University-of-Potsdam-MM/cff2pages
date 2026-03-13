@@ -31,8 +31,6 @@
         {# cff - abstract #}
         {%- if abstract is defined %}
             <p class="abstract"><b>Abstract</b>: {{ abstract }}</p>
-        {%- elif description is defined %}
-            <p class="abstract"><b>Description</b>: {{ description }}</p>
         {%- endif %}
         {{ reference_block(references) }}
     </div>
