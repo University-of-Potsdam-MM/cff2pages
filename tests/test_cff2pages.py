@@ -157,11 +157,13 @@ class CffToHtmlTester(unittest.TestCase):
         Iterate over all .cff files in the fixtures directory, convert them to HTML,
         and compare the generated output with the expected HTML files.
         """
-        fixtures_path = os.path.join(os.path.dirname(__file__), FIXTURES_DIR, "*.cff")
+        fixtures_path = os.path.join(os.path.dirname(__file__), FIXTURES_DIR, "*.")
         cff_files = glob.glob(fixtures_path)
 
         for cff_file in cff_files:
             file_name = os.path.basename(cff_file)
+            if not (file_name.endswith(".cff") or file_name.endswith(".json")):
+                continue
             tmp_dir = self.temp_dir.name
             shutil.copy2(cff_file, tmp_dir)
             input_path = os.path.join(tmp_dir, file_name)
@@ -169,9 +171,9 @@ class CffToHtmlTester(unittest.TestCase):
             # Subtest for HTML conversion
             with self.subTest(f'file: {file_name}, format: html', cff_file=cff_file):
                 print(f'file: {file_name}, format: html')
+                base_name = file_name.replace(".cff", "").replace(".json", "")
                 expected_file = os.path.join(os.path.dirname(__file__), EXPECTED_DIR,
-                                             f"expected_{file_name.replace('.cff', '_body.html')}")
-
+                                            f"expected_{base_name}_body.html")
                 if not os.path.exists(expected_file):
                     self.fail(f"Expected file missing: {expected_file}")
                 output_path = os.path.join(tmp_dir, "public", "cff2pages.html")
