@@ -11,27 +11,33 @@ The Citation.cff is a fantastic format that combines human-readable and machine-
 about its repository. It provides linking systems with important metadata about the
 presented project and gives people the ability to reference the project, among other things.
 However, for a wide range of users, the YAML file format can seem intimidating, whereas a clean
-website is generally more readable. This project aims to automate the conversion of cff files,
-so that maintaining the cff file pays off for developers in terms of the project's presentation,
-thereby ensuring that the website representation is retained.
+website is generally more readable. This project aims to automate the conversion of cff or codemeta files, so that maintaining the cff file pays off for developers in terms of the project's presentation, thereby ensuring that the website representation is retained.
 
 ## Project Description
 
 cff2pages is envisioned as a Python package, designed to automate the extraction of metadata from
-your project's Citation.cff file, and swiftly generate a sleek, static HTML page. This versatile
-page can serve as a vivid representation of your project on Github/Gitlab Pages.
+your project's Citation.cff or Codemeta.json metadata files and swiftly generate a sleek, static HTML page. This versatile page can serve as a vivid representation of your project on Github/Gitlab Pages.
+
+## Supported Metadata Formats
+
+cff2pages currently supports the following metadata formats:
+
+- **Citation File Format (CFF)** – `CITATION.cff`
+- **CodeMeta** – `codemeta.json`
+
+If both files exist in a repository, you can explicitly select one using the `-i` option.
 
 ## Usage
 
 ```
 usage: cff2pages [-h] [-i [INPUT]] [-o [OUTPUT]]
 
-Converts citation information in Citation File Format into HTML or Markdown
+Converts citation information in Citation or Codemeta File Format into HTML or Markdown
 
 options:
   -h, --help            show this help message and exit
   -i [INPUT], --input [INPUT]
-                        path to the input CFF file. Default: ./CITATION.cff
+                        path to the input CFF file. Default: ./CITATION.cff ./codemeta.json
   -o [OUTPUT], --output [OUTPUT]
                         path to the output file. Default: public/citation.html
   -cb, --no-citation-box
