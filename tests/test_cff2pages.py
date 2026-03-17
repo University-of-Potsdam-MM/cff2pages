@@ -162,8 +162,6 @@ class CffToHtmlTester(unittest.TestCase):
 
         for cff_file in cff_files:
             file_name = os.path.basename(cff_file)
-            #if not (file_name.endswith(".cff") or file_name.endswith(".json")):
-                #continue
             tmp_dir = self.temp_dir.name
             shutil.copy2(cff_file, tmp_dir)
             input_path = os.path.join(tmp_dir, file_name)
