@@ -3,6 +3,7 @@ import logging
 import shutil
 from argparse import ArgumentParser
 from pathlib import Path
+import json
 
 from jinja2 import Environment, PackageLoader, select_autoescape
 from cffconvert.cli.create_citation import create_citation
@@ -87,6 +88,98 @@ def guess_format(filename, supported_formats):
         raise ValueError(f'Extension of given output file ({filename}) is not one of the supported formats. Formats currently supported: ({supported_formats}).')
 
 
+def codemeta_to_apa_citation(codemeta, authors):
+    """
+    creates citation of a codemeta file for the citation box.
+    """
+
+    parts = []
+    author_names = []
+
+    for a in authors:
+        family = a.get("family-names", "")
+        given = a.get("given-names", "")
+        initial = f"{given[0]}." if given else ""
+
+        name = f"{family} {initial},"
+        author_names.append(name)
+
+    if len(author_names) == 1:
+        parts.append(author_names[0])
+
+    elif len(author_names) == 2:
+        parts.append(f"{author_names[0]} & {author_names[1]}")
+
+    elif len(author_names) > 2:
+        parts.append(", ".join(author_names[:-1]) + f", & {author_names[-1]}")
+
+    title = codemeta.get("title")
+    if title:
+        parts.append(title + ".")
+
+    version = codemeta.get("version")
+    if version:
+        parts.append(f"(version {version}).")
+
+    for identifier in codemeta.get("identifiers", []):
+        if identifier.get("type") == "doi":
+            parts.append(f"DOI: {identifier.get('value')}")
+            break
+    repo = codemeta.get("repository-code")
+
+    if repo:
+        parts.append(f"URL: {repo}")
+
+    return " ".join(parts)
+
+def create_metadata_dict(codemeta):
+    """
+    parses and creates a dictionary for a codemeta file.
+    """
+
+    identifiers = codemeta.get("identifiers", [])
+    authors = codemeta.get("authors", [])
+
+    references = []
+
+    for ref in codemeta.get("references", []):
+        ref_authors = []
+        for a in ref.get("authors", []):
+            ref_authors.append({
+                "family-names": a.get("family-names"),
+                "given-names": a.get("given-names"),
+                "orcid": a.get("orcid")
+            })
+
+        references.append({
+            "authors": ref_authors,
+            "title": ref.get("title"),
+            "doi": ref.get("doi"),
+            "type": ref.get("type"),
+            "year": ref.get("year")
+        })
+
+    unique_affiliations = get_unique_affiliations(authors)
+    citation_text = codemeta_to_apa_citation(codemeta, authors)
+
+    citation_data = {
+        "title": codemeta.get("title"),
+        "abstract": codemeta.get("abstract"),
+        "version": codemeta.get("version"),
+        "repository": codemeta.get("repository-code"),
+        "license": codemeta.get("license"),
+        "date-released": codemeta.get("datePublished"),
+        "authors": authors,
+        "unique_affiliations": unique_affiliations,
+        "keywords": codemeta.get("keywords", []),
+        "identifiers": identifiers,
+        "references": references,
+        "citation": {"apa": citation_text}
+    }
+
+    return citation_data
+
+
 def main_procedure(cff_path, init_path, show_citation_box=True):
     """
     function to process all steps in the main method
@@ -115,16 +208,27 @@ def main_procedure(cff_path, init_path, show_citation_box=True):
         cff_file = 'CITATION.cff'
     else:
         cff_file = cff_path
-    citation = create_citation(cff_file, None)
-    citation.validate()
-    citation.cffobj['unique_affiliations'] = get_unique_affiliations((citation.cffobj['authors']))
-    if 'repository-code' in citation.cffobj:
-        citation.cffobj['repository'] = citation.cffobj['repository-code']
+
+    if cff_file.endswith('.json'):
+        with open(cff_file, 'r', encoding='utf-8') as f:
+            codemeta = json.load(f)
+
+        citation_data = create_metadata_dict(codemeta)
+
+        index_html = template.render(citation_data, show_citation_box=show_citation_box)
+
     else:
-        logger.warning("Warning: No 'repository-code' found in CITATION.cff.")
-    citation.cffobj['citation'] = {}
-    citation.cffobj['citation']['apa'] = str(citation.as_apalike())
-    index_html = template.render(citation.cffobj, show_citation_box=show_citation_box)
+        citation = create_citation(cff_file, None)
+        citation.validate()
+        citation.cffobj['unique_affiliations'] = get_unique_affiliations((citation.cffobj['authors']))
+        if 'repository-code' in citation.cffobj:
+            citation.cffobj['repository'] = citation.cffobj['repository-code']
+        else:
+            logger.warning("Warning: No 'repository-code' found in CITATION.cff.")
+        citation.cffobj['citation'] = {}
+        citation.cffobj['citation']['apa'] = str(citation.as_apalike())
+        index_html = template.render(citation.cffobj, show_citation_box=show_citation_box)
+
     write_to_pub_folder(init_path, index_html)
 
 
@@ -142,7 +246,7 @@ def parse_command():
         '-i', '--input', 
         default='./CITATION.cff', 
         nargs='?', 
-        help='path to the input CFF file. Default: ./CITATION.cff'
+        help='path to the input metadata file (CITATION.cff or codemeta.json). Default: ./CITATION.cff'
     )
     parser.add_argument(
         '-o', '--output', 

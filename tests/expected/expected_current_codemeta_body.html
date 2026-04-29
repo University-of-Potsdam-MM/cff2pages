@@ -2,7 +2,10 @@
 
 <div class="container">
     <div class="content">
-        <h1 class="blog-title"> Test CFF</h1>
+
+        <h1 class="blog-title"> Test codemeta.json</h1>
+
+
     <h2>
             Muster Mina<sup>1</sup>,
             Minster Mana<sup>2</sup>,
@@ -12,6 +15,7 @@
         <sup>1</sup> : up
         <sup>2</sup> : pu
         </ul>
+
         <div class="keyword-container">
             <b>Keywords:</b>
             <ul class="keyword-list"><li class="keyword-item">
@@ -25,6 +29,9 @@
                     </li>
             </ul>
         </div>
+
+
+
         <div class="badges"><a class="badge-item" href="https://github.com/organization/site" target="_blank">
                         <img src="./assets/img/github-logo.png" alt="Github Logo"></a>
                 <a href="https://github.com/organization/site" target="_blank">Repository</a>
@@ -38,6 +45,9 @@
                              alt="DOI"/>
                     </a>
         </div>
+
+
+
             <p class="licence"><b>License</b>: MIT</p>
 
             <p class="abstract"><b>Abstract</b>: This is a test abstract.</p>
@@ -66,6 +76,22 @@
                     </li>
 
                     <li class="reference-item">
+                        <span class="reference-icon" title="type conference-paper">
+                            <i>type: conference-paper  </i>
+                        </span>
+                        <span class="reference-title">cff2pages: Generate a frontend from your metadata</span>,
+                        <span class="reference-author">
+                        Jan Bernoth<a href="https://orcid.org/0000-0002-4127-0053"><img decoding="async" alt=""
+                                                              src="./assets/img/orcid_16x16.webp"
+                                                              style="width:16px; height:16px; margin:3px"/></a>
+                        </span>
+                        , <span class="year">2024</span>,
+
+                        <span class="reference-doi"><a href="https://doi.org/10.5281/zenodo.10726204"
+                                                       target="_blank">10.5281/zenodo.10726204</a></span>
+                    </li>
+
+                    <li class="reference-item">
                         <span class="reference-icon" title="type software">
                             💻
 
@@ -87,7 +113,7 @@
                         James Baker<a href="https://orcid.org/0000-0002-2682-6922"><img decoding="async" alt=""
                                                               src="./assets/img/orcid_16x16.webp"
                                                               style="width:16px; height:16px; margin:3px"/></a>,
-                        Spencer Bliven<a href="https://orcid.org/0000-0002-1200-1698"><img decoding="async" alt=""
+                        Spencer Bliven<a href="None"><img decoding="async" alt=""
                                                               src="./assets/img/orcid_16x16.webp"
                                                               style="width:16px; height:16px; margin:3px"/></a>,
                         Egon Willighagen<a href="https://orcid.org/0000-0001-7542-0286"><img decoding="async" alt=""
@@ -112,7 +138,9 @@
                         </span>
                         <span class="reference-title">Ya2RO: A tool for creating Research Object from minimum metadata</span>,
                         <span class="reference-author">
-                        Antonia Pavel,
+                        Antonia Pavel<a href="None"><img decoding="async" alt=""
+                                                              src="./assets/img/orcid_16x16.webp"
+                                                              style="width:16px; height:16px; margin:3px"/></a>,
                         Daniel Garijo<a href="https://orcid.org/0000-0003-0454-7145"><img decoding="async" alt=""
                                                               src="./assets/img/orcid_16x16.webp"
                                                               style="width:16px; height:16px; margin:3px"/></a>
@@ -127,14 +155,44 @@
         </div>
 
     </div>
+
+
+
         <div class="citation">
             <p><b>cite as (APA):</b></p>
-            <p id="citationText">Mina M., Mana M., Mona M. Test CFF (version 1.2.3). DOI: 10.1111/zenodo.111111 URL: https://github.com/organization/site
-</p>
+            <p id="citationText">Mina M.,, Mana M.,, &amp; Mona M., Test codemeta.json. (version 1.2.3). DOI: 10.1111/zenodo.111111 URL: https://github.com/organization/site</p>
             <button id="copyButton">copy citation</button>
             <div id="notification" class="notification">Copied!</div>
         </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const copyButton = document.getElementById('copyButton');
+                if (copyButton) {
+                    copyButton.addEventListener('click', function () {
+                        const citationText = document.getElementById('citationText').innerText;
+                        navigator.clipboard.writeText(citationText)
+                            .then(() => {
+                                // Zeige die Benachrichtigung
+                                const notification = document.getElementById('notification');
+                                notification.style.opacity = '1';
+
+                                // Verstecke die Benachrichtigung nach 3 Sekunden
+                                setTimeout(() => {
+                                    notification.style.opacity = '0';
+                                }, 3000);
+                            })
+                            .catch(err => {
+                                console.error('Errors in the copy process: ', err);
+                            });
+                    });
+                }
+            });
+        </script>
+
+
+
 </div>
+
 
 <div class="footer-container">
     <footer class="footer">

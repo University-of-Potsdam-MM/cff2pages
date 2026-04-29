@@ -24,6 +24,7 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin: 20px auto;
     height: fit-content;
+    overflow-wrap: break-word;
     /* Anpassen nach Bedarf */
 }
 

@@ -154,7 +154,7 @@ class CffToHtmlTester(unittest.TestCase):
 
     def test_cff_files(self):
         """
-        Iterate over all .cff files in the fixtures directory, convert them to HTML,
+        Iterate over all .cff in the fixtures directory, convert them to HTML,
         and compare the generated output with the expected HTML files.
         """
         fixtures_path = os.path.join(os.path.dirname(__file__), FIXTURES_DIR, "*.cff")
@@ -171,7 +171,6 @@ class CffToHtmlTester(unittest.TestCase):
                 print(f'file: {file_name}, format: html')
                 expected_file = os.path.join(os.path.dirname(__file__), EXPECTED_DIR,
                                              f"expected_{file_name.replace('.cff', '_body.html')}")
-
                 if not os.path.exists(expected_file):
                     self.fail(f"Expected file missing: {expected_file}")
                 output_path = os.path.join(tmp_dir, "public", "cff2pages.html")
@@ -257,6 +256,77 @@ class CffToHtmlTester(unittest.TestCase):
 
                     self.assertEqual(actual_html, expected_html)
 
+    def test_codemeta_files(self):
+        """
+        Iterate over all .json CodeMeta files in the fixtures directory,
+        convert them to HTML and Markdown, and compare with expected outputs.
+        """
+        fixtures_path = os.path.join(os.path.dirname(__file__), FIXTURES_DIR, "*.json")
+        json_files = glob.glob(fixtures_path)
+
+        for json_file in json_files:
+            file_name = os.path.basename(json_file)
+            tmp_dir = self.temp_dir.name
+            shutil.copy2(json_file, tmp_dir)
+            input_path = os.path.join(tmp_dir, file_name)
+
+            base_name = file_name.replace(".json", "")
+
+            # HTML test
+            with self.subTest(f'file: {file_name}, format: html'):
+                print(f'file: {file_name}, format: html')
+
+                expected_file = os.path.join(
+                    os.path.dirname(__file__),
+                    EXPECTED_DIR,
+                    f"expected_{base_name}_body.html"
+                )
+
+                if not os.path.exists(expected_file):
+                    self.fail(f"Expected file missing: {expected_file}")
+
+                output_path = os.path.join(tmp_dir, "public", "cff2pages.html")
+
+                main_procedure(input_path, output_path)
+                index_file = check_folders(self, tmp_dir, "html")
+
+                actual_body = read_div_from_body(index_file, div_class="container")
+                expected_body = read_div_from_body(expected_file, div_class="container")
+
+                actual_body_cleaned = remove_script_tags(actual_body)
+                expected_body_cleaned = remove_script_tags(expected_body)
+
+                try:
+                    assert actual_body_cleaned.prettify() == expected_body_cleaned.prettify()
+                except AssertionError as e:
+                    self._save_failed_html(output_path, file_name + "_failed_output.html")
+                    raise e
+
+            # Markdown test
+            with self.subTest(f'file: {file_name}, format: md'):
+                print(f'file: {file_name}, format: md')
+
+                expected_file = os.path.join(
+                    os.path.dirname(__file__),
+                    EXPECTED_DIR,
+                    f"expected_{base_name}.md"
+                )
+
+                if not os.path.exists(expected_file):
+                    self.fail(f"Expected file missing: {expected_file}")
+
+                output_path = os.path.join(tmp_dir, "public", "cff2pages.md")
+
+                main_procedure(input_path, output_path)
+                index_file = check_folders(self, tmp_dir, "md")
+
+                with open(index_file, encoding="utf-8") as f:
+                    actual_html = markdown.markdown(f.read())
+
+                with open(expected_file, encoding="utf-8") as f:
+                    expected_html = markdown.markdown(f.read())
+
+                self.assertEqual(actual_html, expected_html)
 
 
 class CffTomlComparer(unittest.TestCase):
