@@ -32,12 +32,14 @@ identifiers:
     type: doi
     value: "10.5281/zenodo.8213986"
 abstract: >-
-  This repository generates HTML pages or Markdown sites for GitHub and GitLab based on your Citation.cff file.
+  This repository generates HTML pages or Markdown sites for GitHub and GitLab based on your Citation.cff or codemeta.json file.
   This ensures that your CFF is optimized for both machine processing and human readability.
 keywords:
+  - citation
   - cff
-  - documentation
-  - pages
+  - codemeta
+  - markdown
+  - research software
 license: MIT
 references:
   - authors:

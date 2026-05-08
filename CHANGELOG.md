@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.0 (2026-05-08) Customizability & Codemeta
+
+* added flag to disable citation (to use it as a layover)
+* added codemeta support
+
+
 ## 0.2.1 (2025-06-11) Conversion to md
 
 * created jinja templates to convert into md files in the same style as HTML files
