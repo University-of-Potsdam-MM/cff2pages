@@ -2,8 +2,8 @@ import glob
 import os.path
 import shutil
 import tempfile
+import tomllib
 import unittest
-import toml
 import markdown
 import re
 from pathlib import Path
@@ -357,8 +357,8 @@ class CffTomlComparer(unittest.TestCase):
         :return:
         """
         # Load and parse pyproject.toml
-        with open('pyproject.toml', 'r') as f:
-            pyproject_data = toml.load(f)
+        with open("pyproject.toml", "rb") as f:
+            pyproject_data = tomllib.load(f)
         citation = create_citation('CITATION.cff', None)
         self.assertEqual(pyproject_data['project']['description'], citation.cffobj['abstract'],
                          "Descriptions of the toml and the abstract of the cff are not the same.")

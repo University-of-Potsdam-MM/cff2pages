@@ -63,7 +63,7 @@ stages:
 
 pages:
   stage: Pages
-  image: python:3.11
+  image: python:3.12
   script:
     - python -m pip install cff2pages
     - cff2pages -o public/index.html
@@ -83,10 +83,10 @@ pages:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Set up Python 3.11
+      - name: Set up Python 3.12
         uses: actions/setup-python@v3
         with:
-          python-version: 3.11
+          python-version: 3.12
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip

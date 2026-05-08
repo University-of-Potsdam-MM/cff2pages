@@ -14,7 +14,7 @@ maintainers = [
 ]
 description = "This repository generates HTML pages or Markdown sites for GitHub and GitLab based on your Citation.cff or codemeta.json file. This ensures that your CFF is optimized for both machine processing and human readability."
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.12"
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
@@ -40,14 +40,13 @@ cff2pages = "cff2pages.cff2pages:init_main"
 
 [project.optional-dependencies]
 test = [
-    "flake8 ~= 7.2.0",
-    "pytest ~= 8.4.0",
-    "toml ~= 0.10.2",
-    "beautifulsoup4 ~= 4.13.4",
-    "markdown ~= 3.8"
+    "flake8 ~= 7.3.0",
+    "pytest ~= 9.0.3",
+    "beautifulsoup4 ~= 4.14.3",
+    "markdown ~= 3.10"
 ]
 docs = [
     "sphinx ~= 7.2.6",
-    "sphinx-rtd-theme ~= 1.3.0",
-    "myst-parser ~= 4.0.1"
+    "sphinx-rtd-theme ~= 3.1.0",
+    "myst-parser ~= 5.0.0"
 ]
