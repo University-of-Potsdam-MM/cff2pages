@@ -177,7 +177,18 @@ def create_metadata_dict(codemeta):
         "citation": {"apa": citation_text}
     }
 
-    return citation_data
+    schemaorg_data = {
+        "@context": "https://schema.org",
+        "@type": "SoftwareSourceCode",
+        "name": codemeta.get("title"),
+        "description": codemeta.get("abstract"),
+        "version": codemeta.get("version"),
+        "codeRepository": codemeta.get("repository-code"),
+        "license": codemeta.get("license"),
+        "keywords": codemeta.get("keywords", [])
+    }
+
+    return citation_data, schemaorg_data
 
 
 def main_procedure(cff_path, init_path, show_citation_box=True):
@@ -213,13 +224,14 @@ def main_procedure(cff_path, init_path, show_citation_box=True):
         with open(cff_file, 'r', encoding='utf-8') as f:
             codemeta = json.load(f)
 
-        citation_data = create_metadata_dict(codemeta)
-
-        index_html = template.render(citation_data, show_citation_box=show_citation_box)
+        citation_data, schemaorg_data = create_metadata_dict(codemeta)
+        index_html = template.render(citation_data, schemaorg_data=schemaorg_data, show_citation_box=show_citation_box)
 
     else:
         citation = create_citation(cff_file, None)
         citation.validate()
+        schemaorg_data = json.loads(citation.as_schemaorg())
+
         citation.cffobj['unique_affiliations'] = get_unique_affiliations((citation.cffobj['authors']))
         if 'repository-code' in citation.cffobj:
             citation.cffobj['repository'] = citation.cffobj['repository-code']
@@ -227,7 +239,11 @@ def main_procedure(cff_path, init_path, show_citation_box=True):
             logger.warning("Warning: No 'repository-code' found in CITATION.cff.")
         citation.cffobj['citation'] = {}
         citation.cffobj['citation']['apa'] = str(citation.as_apalike())
-        index_html = template.render(citation.cffobj, show_citation_box=show_citation_box)
+        index_html = template.render(
+            citation.cffobj,
+            schemaorg_data=schemaorg_data,
+            show_citation_box=show_citation_box
+        )
 
     write_to_pub_folder(init_path, index_html)
 
