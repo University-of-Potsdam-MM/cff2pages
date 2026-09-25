@@ -5,6 +5,7 @@ import tempfile
 import tomllib
 import unittest
 import markdown
+import json
 import re
 from pathlib import Path
 from bs4 import BeautifulSoup
@@ -103,6 +104,27 @@ def remove_script_tags(soup):
     for script in soup.find_all("script"):
         script.decompose()
     return soup
+
+def get_jsonld_from_html(file_path):
+    """Extract and parse JSON-LD from a generated HTML file."""
+    with open(file_path, 'r', encoding='utf-8') as file:
+        soup = BeautifulSoup(file, 'html.parser')
+    script = soup.find('script', {'type': 'application/ld+json'})
+    if script is None:
+        return None
+
+    return json.loads(script.string)
+
+def get_schemaorg_data(file_path):
+    """Extract and parse JSON-LD data from an HTML file."""
+    with open(file_path, 'r', encoding='utf-8') as file:
+        soup = BeautifulSoup(file, 'html.parser')
+
+    script = soup.find('script', {'type': 'application/ld+json'})
+    if script is None:
+        return None
+
+    return json.loads(script.string)
 
 
 def check_folders(cls, tmp_dir, file_format):
@@ -328,6 +350,46 @@ class CffToHtmlTester(unittest.TestCase):
 
                 self.assertEqual(actual_html, expected_html)
 
+    def test_json_ld_generation(self):
+        """
+        Tests that JSON-LD is generated correctly for CFF and CodeMeta files.
+        """
+        fixtures = [
+            ("current.cff", {
+                "@context": "https://schema.org",
+                "@type": "SoftwareSourceCode",
+                "name": "Test CFF",
+                "version": "1.2.3"
+            }),
+            ("current_codemeta.json", {
+                "@context": "https://schema.org",
+                "@type": "SoftwareSourceCode",
+                "name": "Test codemeta.json",
+                "version": "1.2.3"
+            })
+        ]
+
+        for file_name, expected in fixtures:
+            with self.subTest(file=file_name):
+                input_path = os.path.join(FIXTURES_DIR, file_name)
+                base_name = file_name.replace(".cff", "").replace(".json", "")
+                output_path = os.path.join(
+                    self.temp_dir.name,
+                    "public",
+                    f"cff2pages_{base_name}.html"
+                )
+
+                main_procedure(input_path, output_path)
+
+                schemaorg_data = get_schemaorg_data(output_path)
+
+                self.assertIsNotNone(
+                    schemaorg_data,
+                    "JSON-LD script tag was not generated."
+                )
+
+                for key, value in expected.items():
+                    self.assertEqual(schemaorg_data.get(key), value)
 
 class CffTomlComparer(unittest.TestCase):
     """

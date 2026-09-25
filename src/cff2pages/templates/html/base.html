@@ -3,6 +3,9 @@
 <head>
     <title>{{ title }}</title>
     <meta charset="UTF-8">
+    <script type="application/ld+json">
+      {{ schemaorg_data | tojson }}
+    </script>
     <link rel="stylesheet" href="assets/css/cff2pages.css">
     <style>
     </style>
