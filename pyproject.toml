@@ -8,7 +8,7 @@ dynamic = ["version"]
 authors = [
     { name = "Jan Bernoth", email = "jan.bernoth@uni-potsdam.de" },
 ]
-keywords = ["citation", "codemeta", "cff", "html", "markdown", "research software"]
+keywords = ["citation", "codemeta", "cff", "html", "markdown", "research software", "schema.org"]
 maintainers = [
     { name = "Jan Bernoth", email = "jan.bernoth@uni-potsdam.de" }
 ]
@@ -40,13 +40,13 @@ cff2pages = "cff2pages.cff2pages:init_main"
 
 [project.optional-dependencies]
 test = [
-    "flake8 ~= 7.3.0",
-    "pytest ~= 9.0.3",
+    "flake8 ~= 7.4.1",
+    "pytest ~= 9.1.1",
     "beautifulsoup4 ~= 4.15.0",
-    "markdown ~= 3.10"
+    "markdown ~= 3.10.3"
 ]
 docs = [
     "sphinx ~= 9.1.0",
     "sphinx-rtd-theme ~= 3.1.0",
-    "myst-parser ~= 5.0.0"
+    "myst-parser ~= 5.1.0"
 ]

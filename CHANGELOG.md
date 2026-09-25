@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.0 (2026-09-26) Schema.org support
+
+* Convert CFF metadata to JSON-LD and embed it in the generated static HTML
+
 ## 0.3.0 (2026-05-08) Customizability & Codemeta
 
 * added flag to disable citation (to use it as a layover)

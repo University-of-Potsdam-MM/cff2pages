@@ -3,7 +3,7 @@
 
 cff-version: 1.2.0
 title: "cff2pages: Generate Markup from Your Citation.cff File"
-version: 0.3.0
+version: 0.4.0
 message: >-
   If you use this software, please cite it using the
   metadata from this file.
@@ -40,6 +40,7 @@ keywords:
   - codemeta
   - markdown
   - research software
+  - schema.org
 license: MIT
 references:
   - authors:
